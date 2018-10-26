@@ -88,6 +88,59 @@ namespace non_original_idea {
 			}
 		}
 
+
+		internal static string GetDefaultSubjectText(Subject subject) {
+			switch(subject) {
+				case Subject.FirstPlural:
+					return "I";
+				case Subject.FirstSingular:
+					return "we";
+				case Subject.SecondPlural:
+				case Subject.SecondSingular:
+					return "you";
+				case Subject.ThirdFeminine:
+					return "she";
+				default:
+				case Subject.ThirdInanimate:
+					return "it";
+				case Subject.ThirdMasculine:
+					return "he";
+				case Subject.ThirdNeutral:
+				case Subject.ThirdPlural:
+					return "they";
+			}
+
+		}
+
+
+		public static SentenceFragment TensifyVerb (
+			Subject subject,
+			Tense tense,
+			Specificity specificity,
+			Verb verb,
+			string subjectText = null
+		) {
+			if(subjectText == null) {
+				subjectText = GetDefaultSubjectText(subject);
+			}
+
+			return new SentenceFragment(TensifyVerb(
+				tense,
+				specificity,
+				verb.conjugations[subject],
+				verb.pastConjugations[subject],
+				verb.imperfect,
+				verb.participle,
+				verb.flatInfinitive,
+				verb.gerund,
+				subjectText,
+				verb.subjectVerbInversion,
+				(verb.subjectVerbInversion ? null : ConjugateDo(subject) )
+			));
+
+		}
+
+
 		internal static string TensifyVerb(
 
 			Tense tense,
@@ -100,12 +153,12 @@ namespace non_original_idea {
 			string participle,
 			string flatInfinitive,
 			string gerund,
+
 			string subjectText,
 
 			bool questionIncludesSVInversion = true,
 
 			string conjugatedDo = null
-
 
 		) {
 			string result = null;
