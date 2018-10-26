@@ -175,8 +175,6 @@ namespace non_original_idea {
 				specificity,
 				verb.conjugations[subject],
 				verb.pastConjugations[subject],
-				//the ghetto imperfect case woot
-				verb.pastConjugations[Subject.ThirdNeutral],
 				verb.participle,
 				verb.flatInfinitive,
 				verb.gerund,
@@ -196,7 +194,6 @@ namespace non_original_idea {
 			string conjugatedVerb,
 			string conjugatedVerbPast,
 
-			string imperfectVerb,
 			string participle,
 			string flatInfinitive,
 			string gerund,
@@ -222,7 +219,7 @@ namespace non_original_idea {
 						case Tense.Past:
 							return $"{subjectText} {conjugatedVerbPast}";
 						case Tense.Imperfect:
-							return $"{subjectText} {imperfectVerb}";
+							return $"{subjectText} used to {flatInfinitive}";
 						case Tense.Perfect:
 							return $"{subjectText} {conjugatedHave} {participle}";
 						case Tense.Plurperfect:
@@ -268,11 +265,7 @@ namespace non_original_idea {
 								return $"did {subjectText} {flatInfinitive}";
 							}
 						case Tense.Imperfect:
-							if(questionIncludesSVInversion) {
-								return $"{imperfectVerb} {subjectText}";
-							} else {
-								return $"didded {subjectText} {imperfectVerb}";
-							}
+							return $"did {subjectText} used to {flatInfinitive}";
 						case Tense.Perfect:
 							return $"{conjugatedHave} {subjectText} {participle}";
 						case Tense.Plurperfect:
@@ -310,7 +303,7 @@ namespace non_original_idea {
 						case Tense.Past:
 							return $"{subjectText} {conjugatedVerbPast} not";
 						case Tense.Imperfect:
-							return $"{subjectText} {imperfectVerb} not";
+							return $"{subjectText} did not used to {flatInfinitive}";
 						case Tense.Perfect:
 							return $"{subjectText} {conjugatedHave} not {participle}";
 						case Tense.Plurperfect:
@@ -356,11 +349,7 @@ namespace non_original_idea {
 								return $"did {subjectText} not {flatInfinitive}";
 							}
 						case Tense.Imperfect:
-							if(questionIncludesSVInversion) {
-								return $"{imperfectVerb} {subjectText} not";
-							} else {
-								return $"didded {subjectText} not {imperfectVerb}";
-							}
+							return $"did {subjectText} not used to {flatInfinitive}";
 						case Tense.Perfect:
 							return $"{conjugatedHave} {subjectText} not {participle}";
 						case Tense.Plurperfect:

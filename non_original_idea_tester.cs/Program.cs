@@ -33,7 +33,7 @@ namespace non_original_idea_tester.cs {
 			}
 
 
-			var runVerb = new Verb("create","creating","created",false,presentConjugations,pastConjugations);
+			var createVerb = new Verb("create","creating","created",false,presentConjugations,pastConjugations);
 
 			foreach(Tense tense in ConstantsAndPain.Tenses) {
 				foreach(Specificity specificity in ConstantsAndPain.Specificities) {
@@ -41,7 +41,7 @@ namespace non_original_idea_tester.cs {
 					foreach(Subject subject in ConstantsAndPain.Subjects) {
 
 						var tensified = ConstantsAndPain.TensifyVerb(
-							subject,tense,specificity,runVerb
+							subject,tense,specificity,createVerb
 						);
 
 						Console.WriteLine(string.Join(',',tense,specificity,subject));
