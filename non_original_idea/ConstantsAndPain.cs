@@ -73,7 +73,6 @@ namespace non_original_idea {
 				default:
 				case 11:
 					return Tense.Present;
-					
 			}
 		}
 
@@ -99,7 +98,6 @@ namespace non_original_idea {
 			}
 		}
 
-
 		internal static string GetDefaultSubjectText(Subject subject) {
 			switch(subject) {
 				case Subject.FirstPlural:
@@ -120,9 +118,7 @@ namespace non_original_idea {
 				case Subject.ThirdPlural:
 					return "they";
 			}
-
 		}
-
 
 		public static SentenceFragment TensifyVerb (
 			Subject subject,
@@ -134,7 +130,6 @@ namespace non_original_idea {
 			if(subjectText == null) {
 				subjectText = GetDefaultSubjectText(subject);
 			}
-
 			return new SentenceFragment(TensifyVerb(
 				tense,
 				specificity,
@@ -148,11 +143,8 @@ namespace non_original_idea {
 				verb.subjectVerbInversion,
 				(verb.subjectVerbInversion ? null : ConjugateDo(subject)),
 				ConjugateHave(subject)
-
 			));
-
 		}
-
 
 		internal static string TensifyVerb(
 
@@ -169,10 +161,10 @@ namespace non_original_idea {
 
 			string subjectText,
 
-			bool questionIncludesSVInversion = true,
+			bool questionIncludesSVInversion,
 
-			string conjugatedDo = null,
-			string conjugatedHave = "have"
+			string conjugatedDo,
+			string conjugatedHave
 
 		) {
 			string result = null;
@@ -425,7 +417,17 @@ namespace non_original_idea {
 			return result;
 		}
 
-		public static SentenceFragment GetVerbToBe(
+		public static SentenceFragment GetVerbToBe (
+			Subject subject,
+			Tense tense = Tense.Present,
+			Specificity specificity = Specificity.PositiveStatement,
+			Verb gerundVerb = null,
+			string subjectText = null
+		) {
+			return GetVerbToBe(subject,tense,specificity,subjectText,gerundVerb);
+		}
+
+		public static SentenceFragment GetVerbToBe (
 			Subject subject,
 			Tense tense = Tense.Present,
 			Specificity specificity = Specificity.PositiveStatement,
@@ -436,35 +438,34 @@ namespace non_original_idea {
 			switch(subject) {
 				case Subject.FirstSingular:
 					subjectText = subjectText != null ? subjectText : "I";
-					result = TensifyVerb(tense,specificity,"am","was","were","been","be","being",subjectText);
+					result = TensifyVerb(tense,specificity,"am","was","were","been","be","being",subjectText,true,"do","have");
 					break;
 				case Subject.FirstPlural:
 					subjectText = subjectText != null ? subjectText : "we";
-					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText);
+					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText,true,"do","have");
 					break;
 				case Subject.SecondSingular:
 				case Subject.SecondPlural:
 					subjectText = subjectText != null ? subjectText : "you";
-					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText);
+					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText,true,"do","have");
 					break;
 
 				case Subject.ThirdMasculine:
 					subjectText = subjectText != null ? subjectText : "he";
-					result = TensifyVerb(tense,specificity,"is","was","were","been","be","being",subjectText);
+					result = TensifyVerb(tense,specificity,"is","was","were","been","be","being",subjectText,true,"do","has");
 					break;
 				case Subject.ThirdFeminine:
 					subjectText = subjectText != null ? subjectText : "she";
-					result = TensifyVerb(tense,specificity,"is","was","were","been","be","being",subjectText);
+					result = TensifyVerb(tense,specificity,"is","was","were","been","be","being",subjectText,true,"do","has");
 					break;
 				case Subject.ThirdInanimate:
 					subjectText = subjectText != null ? subjectText : "it";
-					result = TensifyVerb(tense,specificity,"is","was","were","been","be","being",subjectText);
+					result = TensifyVerb(tense,specificity,"is","was","were","been","be","being",subjectText,true,"do","has");
 					break;
-
 				case Subject.ThirdNeutral:
 				case Subject.ThirdPlural:
 					subjectText = subjectText != null ? subjectText : "they";
-					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText);
+					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText,true,"do","have");
 					break;
 			}
 
