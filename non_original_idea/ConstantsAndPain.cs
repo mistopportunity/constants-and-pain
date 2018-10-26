@@ -13,6 +13,11 @@ namespace non_original_idea {
 		public static readonly Array Specificities = Enum.GetValues(typeof(Specificity));
 		public static readonly Array Tenses = Enum.GetValues(typeof(Tense));
 
+		public static readonly Subject[] ThirdPersonSingulars = new Subject[] {
+			Subject.ThirdFeminine,Subject.ThirdInanimate,Subject.ThirdMasculine
+		};
+
+
 		public static readonly Tense[] ConditionalTenses = new Tense[]{
 			Tense.ConditionalPerfect,
 			Tense.ConditionalPresent,
@@ -180,7 +185,7 @@ namespace non_original_idea {
 				(verb.subjectVerbInversion ? null : GetConjugatedDo(subject)),
 				GetConjugatedHave(subject),
 				GetVerbToBeFlat(subject),
-				GetVerbToBeFlatPast(subject);
+				GetVerbToBeFlatPast(subject)
 			));
 		}
 
@@ -335,7 +340,7 @@ namespace non_original_idea {
 				case Specificity.NegativeStatement:
 					switch(tense) {
 						case Tense.Present:
-							result = $"{subjectText} {conjugatedVerb} not";
+							result = $"{subjectText} {conjugatedDo} not {flatInfinitive}";
 							break;
 						case Tense.Past:
 							result = $"{subjectText} {conjugatedVerbPast} not";
@@ -423,7 +428,7 @@ namespace non_original_idea {
 							result = $"will {subjectText} not {flatInfinitive}";
 							break;
 						case Tense.ContinuousPresent:
-							result = $"{conjugatedVerb} {conjugatedVerbToBe} not {gerund}";
+							result = $"{conjugatedVerbToBe} {subjectText} not {gerund}";
 							break;
 						case Tense.ContinuousPluperfect:
 							result = $"had {subjectText} not been {gerund}";
@@ -432,7 +437,7 @@ namespace non_original_idea {
 							result = $"{conjugatedHave} {subjectText} not been {gerund}";
 							break;
 						case Tense.ContinuousPast:
-							result = $"{conjugatedVerbPast} {conjugatedVerbToBePast} not {gerund}";
+							result = $"{conjugatedVerbToBePast} {subjectText} not {gerund}";
 							break;
 						case Tense.ContinuousFuturePerfect:
 							result = $"will {subjectText} not have been {gerund}";

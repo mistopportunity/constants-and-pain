@@ -18,17 +18,42 @@ namespace non_original_idea_tester.cs {
 
 		static void CustomVerbsTest() {
 
-			var runVerb = new Verb(
-				"create","creating","create","create",false,
-				new Dictionary<Subject,string>() {
-					{Subject.FirstPlural, ""}
-				},
-				new Dictionary<Subject,string>() {
+
+			var presentConjugations = new Dictionary<Subject,string>();
+			var pastConjugations = new Dictionary<Subject,string>();
+
+			//Applying the base
+			foreach(Subject subject in ConstantsAndPain.Subjects) {
+				pastConjugations.Add(subject,"created");
+				presentConjugations.Add(subject,"create");
+			}
+			//Applying irregulars
+			foreach(Subject subject in ConstantsAndPain.ThirdPersonSingulars) {
+				presentConjugations[subject] = "creates";
+			}
+
+
+			var runVerb = new Verb("create","creating","created",false,presentConjugations,pastConjugations);
+
+			foreach(Tense tense in ConstantsAndPain.Tenses) {
+				foreach(Specificity specificity in ConstantsAndPain.Specificities) {
+
+					foreach(Subject subject in ConstantsAndPain.Subjects) {
+
+						var tensified = ConstantsAndPain.TensifyVerb(
+							subject,tense,specificity,runVerb
+						);
+
+						Console.WriteLine(string.Join(',',tense,specificity,subject));
+
+						Console.WriteLine(tensified.Text);
+
+						Console.WriteLine();
+
+					}
 
 				}
-			);
-
-
+			}
 
 
 		}
