@@ -3,16 +3,64 @@ using System.Collections.Generic;
 using non_original_idea;
 
 namespace non_original_idea_tester.cs {
+
+	using static ConstantsAndPain;
+
 	class Program {
 
 		static void Main() {
 
 
-			CustomVerbsTest();
+			BruteForceTest();
 
 
 
 			Console.ReadKey(true);
+		}
+
+
+		static void LaughableAutoConjugator() {
+
+			var create = VerbGenerator.ConjugateUnsafelyAndRegularly("create");
+			var shit = VerbGenerator.ConjugateUnsafelyAndRegularly("shit");
+			var hate = VerbGenerator.ConjugateUnsafelyAndRegularly("hate");
+
+
+			foreach(Subject subject in Subjects) {
+
+				foreach(Tense tense in Tenses) {
+
+					foreach(Specificity specificity in Specificities) {
+
+
+						Console.WriteLine(string.Join(',',subject,tense,specificity));
+
+						var bob = new SentenceBuilder();
+
+						bob.Add(GetTensedVerb(subject,tense,specificity,hate));
+
+						bob.Add("zebras");
+
+						bob.Add("because");
+
+						bob.Add(GetTensedVerb(Subject.SecondSingular,Tense.Present,Specificity.PositiveStatement,shit));
+
+						bob.Add("on my cat");
+
+
+						Console.WriteLine(bob.Build(true,GetPunctuation(specificity)));
+
+						Console.WriteLine();
+
+					}
+
+
+				}
+
+
+			}
+
+
 		}
 
 
@@ -23,24 +71,24 @@ namespace non_original_idea_tester.cs {
 			var pastConjugations = new Dictionary<Subject,string>();
 
 			//Applying the base
-			foreach(Subject subject in ConstantsAndPain.Subjects) {
+			foreach(Subject subject in Subjects) {
 				pastConjugations.Add(subject,"created");
 				presentConjugations.Add(subject,"create");
 			}
 			//Applying irregulars
-			foreach(Subject subject in ConstantsAndPain.ThirdPersonSingulars) {
+			foreach(Subject subject in ThirdPersonSingulars) {
 				presentConjugations[subject] = "creates";
 			}
 
 
-			var createVerb = new Verb("create","creating","created",false,presentConjugations,pastConjugations);
+			var createVerb = new Verb("create","creating","created",false,true,presentConjugations,pastConjugations);
 
-			foreach(Tense tense in ConstantsAndPain.Tenses) {
-				foreach(Specificity specificity in ConstantsAndPain.Specificities) {
+			foreach(Tense tense in Tenses) {
+				foreach(Specificity specificity in Specificities) {
 
-					foreach(Subject subject in ConstantsAndPain.Subjects) {
+					foreach(Subject subject in Subjects) {
 
-						var tensified = ConstantsAndPain.TensifyVerb(
+						var tensified = GetTensedVerb(
 							subject,tense,specificity,createVerb
 						);
 
@@ -60,21 +108,21 @@ namespace non_original_idea_tester.cs {
 
 		static void BruteForceTest() {
 
-			foreach(Subject subject in ConstantsAndPain.Subjects) {
+			foreach(Subject subject in Subjects) {
 
-				foreach(Specificity specificity in ConstantsAndPain.Specificities) {
+				foreach(Specificity specificity in Specificities) {
 
-					foreach(Tense tense in ConstantsAndPain.Tenses) {
+					foreach(Tense tense in Tenses) {
 
-						var fragment = ConstantsAndPain.GetVerbToBe(
+						var fragment = GetVerbToBe(
 							subject,
 							tense,
 							specificity
 						);
 
-						var adjective = new SentenceFragment("complicated");
+						var adjective = new SentenceFragment("constipated");
 
-						char punctuation = ConstantsAndPain.GetPunctuation(specificity);
+						char punctuation = GetPunctuation(specificity);
 
 						var sentence = SentenceBuilder.Build(
 							punctuation,
@@ -93,7 +141,7 @@ namespace non_original_idea_tester.cs {
 
 			fragments.Add(new SentenceFragment("if"));
 
-			fragments.Add(ConstantsAndPain.GetVerbToBe(
+			fragments.Add(GetVerbToBe(
 				Subject.FirstSingular,
 				Tense.ContinuousPast,
 				Specificity.NegativeStatement
@@ -101,7 +149,7 @@ namespace non_original_idea_tester.cs {
 
 			fragments.Add(new SentenceFragment("so mean,"));
 
-			fragments.Add(ConstantsAndPain.GetVerbToBe(
+			fragments.Add(GetVerbToBe(
 				Subject.FirstSingular,
 				Tense.ConditionalPerfect,
 				Specificity.PositiveQuestion
@@ -119,13 +167,13 @@ namespace non_original_idea_tester.cs {
 
 			var random = new Random();
 
-			foreach(Specificity specificity in ConstantsAndPain.Specificities) {
+			foreach(Specificity specificity in Specificities) {
 
-				foreach(Tense tense in ConstantsAndPain.ConditionalTenses) {
+				foreach(Tense tense in ConditionalTenses) {
 
 					List<SentenceFragment> fragments = new List<SentenceFragment>();
 
-					fragments.Add(ConstantsAndPain.GetVerbToBe(
+					fragments.Add(GetVerbToBe(
 						Subject.ThirdFeminine,
 						tense,
 						specificity,
@@ -153,7 +201,7 @@ namespace non_original_idea_tester.cs {
 
 					}
 
-					fragments.Add(ConstantsAndPain.GetVerbToBe(
+					fragments.Add(GetVerbToBe(
 						Subject.ThirdMasculine,
 						ifClauseTense,
 						Specificity.NegativeStatement,
@@ -163,7 +211,7 @@ namespace non_original_idea_tester.cs {
 					fragments.Add(new SentenceFragment("so gay"));
 
 
-					char punctuation = ConstantsAndPain.GetPunctuation(specificity);
+					char punctuation = GetPunctuation(specificity);
 					var sentence = SentenceBuilder.Build(fragments,true,punctuation);
 
 					Console.WriteLine(sentence);

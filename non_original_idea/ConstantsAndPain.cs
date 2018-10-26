@@ -105,9 +105,9 @@ namespace non_original_idea {
 
 		internal static string GetDefaultSubjectText(Subject subject) {
 			switch(subject) {
-				case Subject.FirstPlural:
-					return "I";
 				case Subject.FirstSingular:
+					return "I";
+				case Subject.FirstPlural:
 					return "we";
 				case Subject.SecondPlural:
 				case Subject.SecondSingular:
@@ -160,7 +160,7 @@ namespace non_original_idea {
 			}
 		}
 
-		public static SentenceFragment TensifyVerb (
+		public static SentenceFragment GetTensedVerb (
 			Subject subject,
 			Tense tense,
 			Specificity specificity,
@@ -170,7 +170,7 @@ namespace non_original_idea {
 			if(subjectText == null) {
 				subjectText = GetDefaultSubjectText(subject);
 			}
-			return new SentenceFragment(TensifyVerb(
+			return new SentenceFragment(GetTensedVerb(
 				tense,
 				specificity,
 				verb.conjugations[subject],
@@ -183,11 +183,12 @@ namespace non_original_idea {
 				(verb.subjectVerbInversion ? null : GetConjugatedDo(subject)),
 				GetConjugatedHave(subject),
 				GetVerbToBeFlat(subject),
-				GetVerbToBeFlatPast(subject)
+				GetVerbToBeFlatPast(subject),
+				verb.usePastParticiple
 			));
 		}
 
-		internal static string TensifyVerb(
+		internal static string GetTensedVerb(
 			Tense tense,
 			Specificity specificity,
 
@@ -206,7 +207,9 @@ namespace non_original_idea {
 			string conjugatedHave,
 
 			string conjugatedVerbToBe,
-			string conjugatedVerbToBePast
+			string conjugatedVerbToBePast,
+
+			bool simplePastUseParticiple
 
 		) {
 			switch(specificity) {
@@ -217,7 +220,11 @@ namespace non_original_idea {
 						case Tense.Present:
 							return $"{subjectText} {conjugatedVerb}";
 						case Tense.Past:
-							return $"{subjectText} {conjugatedVerbPast}";
+							if(simplePastUseParticiple) {
+								return $"{subjectText} {participle}";
+							} else {
+								return $"{subjectText} {conjugatedVerbPast}";
+							}
 						case Tense.Imperfect:
 							return $"{subjectText} used to {flatInfinitive}";
 						case Tense.Perfect:
@@ -301,7 +308,11 @@ namespace non_original_idea {
 						case Tense.Present:
 							return $"{subjectText} {conjugatedDo} not {flatInfinitive}";
 						case Tense.Past:
-							return $"{subjectText} {conjugatedVerbPast} not";
+							if(simplePastUseParticiple) {
+								return $"{subjectText} did not {flatInfinitive}";
+							} else {
+								return $"{subjectText} {conjugatedVerbPast} not";
+							}
 						case Tense.Imperfect:
 							return $"{subjectText} did not used to {flatInfinitive}";
 						case Tense.Perfect:
@@ -393,16 +404,16 @@ namespace non_original_idea {
 			switch(subject) {
 				case Subject.FirstSingular:
 					subjectText = subjectText != null ? subjectText : "I";
-					result = TensifyVerb(tense,specificity,"am","was","were","been","be","being",subjectText,true,"do","have","am","was");
+					result = GetTensedVerb(tense,specificity,"am","was","been","be","being",subjectText,true,"do","have","am","was",false);
 					break;
 				case Subject.FirstPlural:
 					subjectText = subjectText != null ? subjectText : "we";
-					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText,true,"do","have","are","were");
+					result = GetTensedVerb(tense,specificity,"are","were","been","be","being",subjectText,true,"do","have","are","were",false);
 					break;
 				case Subject.SecondSingular:
 				case Subject.SecondPlural:
 					subjectText = subjectText != null ? subjectText : "you";
-					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText,true,"do","have","are","were");
+					result = GetTensedVerb(tense,specificity,"are","were","been","be","being",subjectText,true,"do","have","are","were",false);
 					break;
 
 				case Subject.ThirdMasculine:
@@ -416,13 +427,13 @@ namespace non_original_idea {
 					goto default;
 
 				default:
-					result = TensifyVerb(tense,specificity,"is","was","were","been","be","being",subjectText,true,"do","has","is","was");
+					result = GetTensedVerb(tense,specificity,"is","was","been","be","being",subjectText,true,"do","has","is","was",false);
 					break;
 
 				case Subject.ThirdNeutral:
 				case Subject.ThirdPlural:
 					subjectText = subjectText != null ? subjectText : "they";
-					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText,true,"do","have","is","was");
+					result = GetTensedVerb(tense,specificity,"are","were","been","be","being",subjectText,true,"do","have","is","were",false);
 					break;
 			}
 

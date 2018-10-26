@@ -3,7 +3,21 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace non_original_idea {
-	public static class SentenceBuilder {
+	public sealed class SentenceBuilder {
+
+		public readonly List<SentenceFragment> Fragments;
+		public SentenceBuilder() {
+			Fragments = new List<SentenceFragment>();
+		}
+		public void Add(SentenceFragment sentenceFragment) {
+			Fragments.Add(sentenceFragment);
+		}
+		public void Add(string sentenceFragment) {
+			Fragments.Add(new SentenceFragment(sentenceFragment));
+		}
+		public string Build(bool startCapital = true,char punctuation = '.') {
+			return Build(Fragments,startCapital,punctuation);
+		}
 
 		public static string Build(
 			bool startCapital,

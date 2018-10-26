@@ -8,6 +8,7 @@ namespace non_original_idea {
 			string flatInfinitive,
 			string gerund,string participle,
 			bool subjectVerbInversion,
+			bool usePastParticiple,
 			Dictionary<Subject,string> conjugations,
 			Dictionary<Subject,string> pastConjugations
 		) {
@@ -15,6 +16,7 @@ namespace non_original_idea {
 			this.gerund = gerund;
 			this.participle = participle;
 			this.subjectVerbInversion = subjectVerbInversion;
+			this.usePastParticiple = usePastParticiple;
 			this.conjugations = conjugations;
 			this.pastConjugations = pastConjugations;
 		}
@@ -22,6 +24,7 @@ namespace non_original_idea {
 		internal readonly string gerund;
 		internal readonly string participle;
 		internal readonly bool subjectVerbInversion;
+		internal readonly bool usePastParticiple;
 		internal readonly Dictionary<Subject,string> conjugations;
 		internal readonly Dictionary<Subject,string> pastConjugations;
 
