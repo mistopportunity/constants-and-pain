@@ -23,7 +23,9 @@ namespace non_original_idea {
 		ContinuousFuturePerfect,
 
 		ContinuousConditionalPresent,
-		ContinuousConditionalPerfect
+		ContinuousConditionalPerfect,
+
+		Imperfect
 
 	}
 }

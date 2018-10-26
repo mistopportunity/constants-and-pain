@@ -4,7 +4,7 @@ using non_original_idea;
 
 namespace non_original_idea_tester.cs {
 	class Program {
-		static void Main2() {
+		static void Main() {
 
 			foreach(Subject subject in ConstantsAndPain.Subjects) {
 
@@ -38,7 +38,37 @@ namespace non_original_idea_tester.cs {
 			Console.ReadKey(true);
 		}
 
-		static void Main() {
+		static void Main4() {
+
+			List<SentenceFragment> fragments = new List<SentenceFragment>();
+
+			fragments.Add(new SentenceFragment("if"));
+
+			fragments.Add(ConstantsAndPain.GetVerbToBePredicate(
+				Subject.FirstSingular,
+				Tense.ContinuousPast,
+				Specificity.NegativeStatement
+			));
+
+			fragments.Add(new SentenceFragment("so mean,"));
+
+			fragments.Add(ConstantsAndPain.GetVerbToBePredicate(
+				Subject.FirstSingular,
+				Tense.ConditionalPerfect,
+				Specificity.PositiveQuestion
+			));
+
+			fragments.Add(new SentenceFragment("nicer"));
+
+			var sentence = SentenceBuilder.Build(fragments,true,'?');
+
+			Console.WriteLine(sentence);
+
+			Console.ReadKey(true);
+
+		}
+
+		static void Main3() {
 
 			var random = new Random();
 

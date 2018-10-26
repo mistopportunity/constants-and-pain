@@ -75,7 +75,278 @@ namespace non_original_idea {
 					return Tense.Present;
 					
 			}
+		}
 
+
+		internal static string TensifyVerb(
+
+			Tense tense,
+			Specificity specificity,
+
+			string conjugatedVerb,
+			string conjugatedVerbPast,
+
+			string imperfectVerb,
+			string participle,
+			string flatInfinitive,
+			string gerund,
+			string subjectText,
+
+			bool questionIncludesSVInversion = true,
+
+			string conjugatedDo = null,
+			string conjugatedDoPast = null
+
+
+		) {
+			string result = null;
+			switch(specificity) {
+				case Specificity.PositiveStatement:
+					switch(tense) {
+						case Tense.Present:
+							result = $"{subjectText} {conjugatedVerb}";
+							break;
+						case Tense.Past:
+							result = $"{subjectText} {conjugatedVerbPast}";
+							break;
+						case Tense.Imperfect:
+							result = $"{subjectText} {imperfectVerb}";
+							break;
+						case Tense.Perfect:
+							result = $"{subjectText} have {participle}";
+							break;
+						case Tense.Plurperfect:
+							result = $"{subjectText} had {participle}";
+							break;
+						case Tense.FuturePerfect:
+							result = $"{subjectText} will have {participle}";
+							break;
+						case Tense.Future:
+							result = $"{subjectText} will {flatInfinitive}";
+							break;
+						case Tense.ContinuousPresent:
+							result = $"{subjectText} {conjugatedVerb} {gerund}";
+							break;
+						case Tense.ContinuousPluperfect:
+							result = $"{subjectText} had been {gerund}";
+							break;
+						case Tense.ContinuousPerfect:
+							result = $"{subjectText} have been {gerund}";
+							break;
+						case Tense.ContinuousPast:
+							result = $"{subjectText} {conjugatedVerbPast} {gerund}";
+							break;
+						case Tense.ContinuousFuturePerfect:
+							result = $"{subjectText} will have been {gerund}";
+							break;
+						case Tense.ContinuousFuture:
+							result = $"{subjectText} will be {gerund}";
+							break;
+						case Tense.ContinuousConditionalPresent:
+							result = $"{subjectText} would be {gerund}";
+							break;
+						case Tense.ContinuousConditionalPerfect:
+							result = $"{subjectText} would have been {gerund}";
+							break;
+						case Tense.ConditionalPresent:
+							result = $"{subjectText} would {flatInfinitive}";
+							break;
+						case Tense.ConditionalPerfect:
+							result = $"{subjectText} would have {participle}";
+							break;
+					}
+					break;
+				case Specificity.PositiveQuestion:
+					switch(tense) {
+						case Tense.Present:
+							if(questionIncludesSVInversion) {
+								result = $"{conjugatedVerb} {subjectText}";
+							} else {
+								result = $"{conjugatedDo} {subjectText} {flatInfinitive}";
+							}
+							break;
+						case Tense.Past:
+							if(questionIncludesSVInversion) {
+								result = $"{conjugatedVerbPast} {subjectText}";
+							} else {
+								result = $"{conjugatedDoPast} {subjectText} {flatInfinitive}";
+							}
+							break;
+						case Tense.Imperfect:
+							if(questionIncludesSVInversion) {
+								result = $"{imperfectVerb} {subjectText}";
+							} else {
+								result = $"didded {subjectText} {imperfectVerb}";
+							}
+							break;
+						case Tense.Perfect:
+							result = $"have {subjectText} {participle}";
+							break;
+						case Tense.Plurperfect:
+							result = $"had {subjectText} {participle}";
+							break;
+						case Tense.FuturePerfect:
+							result = $"will {subjectText} have {participle}";
+							break;
+						case Tense.Future:
+							result = $"will {subjectText} {flatInfinitive}";
+							break;
+						case Tense.ContinuousPresent:
+							result = $"{conjugatedVerb} {subjectText} {gerund}";
+							break;
+						case Tense.ContinuousPluperfect:
+							result = $"had {subjectText} been {gerund}";
+							break;
+						case Tense.ContinuousPerfect:
+							result = $"have {subjectText} been {gerund}";
+							break;
+						case Tense.ContinuousPast:
+							result = $"{conjugatedVerbPast} {subjectText} {gerund}";
+							break;
+						case Tense.ContinuousFuturePerfect:
+							result = $"will {subjectText} have been {gerund}";
+							break;
+						case Tense.ContinuousFuture:
+							result = $"will {subjectText} be {gerund}";
+							break;
+						case Tense.ContinuousConditionalPresent:
+							result = $"would {subjectText} be {gerund}";
+							break;
+						case Tense.ContinuousConditionalPerfect:
+							result = $"would {subjectText} have been {gerund}";
+							break;
+						case Tense.ConditionalPresent:
+							result = $"would {subjectText} {flatInfinitive}";
+							break;
+						case Tense.ConditionalPerfect:
+							result = $"would {subjectText} have {participle}";
+							break;
+					}
+					break;
+				case Specificity.NegativeStatement:
+					switch(tense) {
+						case Tense.Present:
+							result = $"{subjectText} {conjugatedVerb} not";
+							break;
+						case Tense.Past:
+							result = $"{subjectText} {conjugatedVerbPast} not";
+							break;
+						case Tense.Imperfect:
+							result = $"{subjectText} {imperfectVerb} not";
+							break;
+						case Tense.Perfect:
+							result = $"{subjectText} have not {participle}";
+							break;
+						case Tense.Plurperfect:
+							result = $"{subjectText} had not {participle}";
+							break;
+						case Tense.FuturePerfect:
+							result = $"{subjectText} will not have {participle}";
+							break;
+						case Tense.Future:
+							result = $"{subjectText} will not {flatInfinitive}";
+							break;
+						case Tense.ContinuousPresent:
+							result = $"{subjectText} {conjugatedVerb} not {gerund}";
+							break;
+						case Tense.ContinuousPluperfect:
+							result = $"{subjectText} had not been {gerund}";
+							break;
+						case Tense.ContinuousPerfect:
+							result = $"{subjectText} have not been {gerund}";
+							break;
+						case Tense.ContinuousPast:
+							result = $"{subjectText} {conjugatedVerbPast} not {gerund}";
+							break;
+						case Tense.ContinuousFuturePerfect:
+							result = $"{subjectText} will not have been {gerund}";
+							break;
+						case Tense.ContinuousFuture:
+							result = $"{subjectText} will not be {gerund}";
+							break;
+						case Tense.ContinuousConditionalPresent:
+							result = $"{subjectText} would not be {gerund}";
+							break;
+						case Tense.ContinuousConditionalPerfect:
+							result = $"{subjectText} would not have been {gerund}";
+							break;
+						case Tense.ConditionalPresent:
+							result = $"{subjectText} would not {flatInfinitive}";
+							break;
+						case Tense.ConditionalPerfect:
+							result = $"{subjectText} would not have {participle}";
+							break;
+					}
+					break;
+				case Specificity.NegativeQuestion:
+					switch(tense) {
+						case Tense.Present:
+							if(questionIncludesSVInversion) {
+								result = $"{conjugatedVerb} {subjectText} not";
+							} else {
+								result = $"{conjugatedDo} {subjectText} not {flatInfinitive}";
+							}
+							break;
+						case Tense.Past:
+							if(questionIncludesSVInversion) {
+								result = $"{conjugatedVerbPast} {subjectText} not";
+							} else {
+								result = $"{conjugatedDoPast} {subjectText} not {flatInfinitive}";
+							}
+							break;
+						case Tense.Imperfect:
+							if(questionIncludesSVInversion) {
+								result = $"{imperfectVerb} {subjectText} not";
+							} else {
+								result = $"didded {subjectText} not {imperfectVerb}";
+							}
+							break;
+						case Tense.Perfect:
+							result = $"have {subjectText} not {participle}";
+							break;
+						case Tense.Plurperfect:
+							result = $"had {subjectText} not {participle}";
+							break;
+						case Tense.FuturePerfect:
+							result = $"will {subjectText} have not {participle}";
+							break;
+						case Tense.Future:
+							result = $"will {subjectText} not {flatInfinitive}";
+							break;
+						case Tense.ContinuousPresent:
+							result = $"{conjugatedVerb} {subjectText} not {gerund}";
+							break;
+						case Tense.ContinuousPluperfect:
+							result = $"had {subjectText} not been {gerund}";
+							break;
+						case Tense.ContinuousPerfect:
+							result = $"have {subjectText} not been {gerund}";
+							break;
+						case Tense.ContinuousPast:
+							result = $"{conjugatedVerbPast} {subjectText} not {gerund}";
+							break;
+						case Tense.ContinuousFuturePerfect:
+							result = $"will {subjectText} not have been {gerund}";
+							break;
+						case Tense.ContinuousFuture:
+							result = $"will {subjectText} not be {gerund}";
+							break;
+						case Tense.ContinuousConditionalPresent:
+							result = $"would {subjectText} not be {gerund}";
+							break;
+						case Tense.ContinuousConditionalPerfect:
+							result = $"would {subjectText} not have been {gerund}";
+							break;
+						case Tense.ConditionalPresent:
+							result = $"would {subjectText} {flatInfinitive}";
+							break;
+						case Tense.ConditionalPerfect:
+							result = $"would {subjectText} have {participle}";
+							break;
+					}
+					break;
+			}
+			return result;
 		}
 
 		public static SentenceFragment GetVerbToBePredicate (
@@ -88,1061 +359,35 @@ namespace non_original_idea {
 			switch(subject) {
 				case Subject.FirstSingular:
 					subjectText = subjectText != null ? subjectText : "I";
-					switch(tense) {
-						case Tense.Present:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} am";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} am not";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"am {subjectText}";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"am {subjectText} not";
-									break;
-							}
-							break;
-						case Tense.Perfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} have been";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} have not been";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"have {subjectText} been";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"have {subjectText} not been";
-									break;
-							}
-							break;
-						case Tense.Plurperfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} had been";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} had not been";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"had {subjectText} been";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"had {subjectText} not been";
-									break;
-							}
-							break;
-						case Tense.Past:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} was";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} was not";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"was {subjectText}";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"was {subjectText} not";
-									break;
-							}
-							break;
-						case Tense.FuturePerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will have been";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not have been";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} have been";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not have been";
-									break;
-							}
-							break;
-						case Tense.Future:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will be";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not be";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} be";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not be";
-									break;
-							}
-							break;
-						case Tense.ContinuousPresent:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} am being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} am not being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"am {subjectText} being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"am {subjectText} not being";
-									break;
-							}
-							break;
-						case Tense.ContinuousPluperfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} had been being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} had not been being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"had {subjectText} been being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"had {subjectText} not been being";
-									break;
-							}
-							break;
-						case Tense.ContinuousPerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will be being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not be being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} be being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not being";
-									break;
-							}
-							break;
-						case Tense.ContinuousPast:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} am being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} am not being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"am {subjectText} being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"am {subjectText} not being";
-									break;
-							}
-							break;
-						case Tense.ContinuousFuturePerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will have been being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not have been being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} have been being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not have been being";
-									break;
-							}
-							break;
-						case Tense.ContinuousFuture:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will be being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not be being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} be being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not be being";
-									break;
-							}
-							break;
-						case Tense.ContinuousConditionalPresent:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} would be being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} would not be being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"would {subjectText} be being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"would {subjectText} not be being";
-									break;
-							}
-							break;
-						case Tense.ContinuousConditionalPerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} would have been being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} would not have been being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"would {subjectText} have been being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"would {subjectText} not have been being";
-									break;
-							}
-							break;
-						case Tense.ConditionalPresent:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} would be";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} would not be";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"would {subjectText} be";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"would {subjectText} not be";
-									break;
-							}
-							break;
-						case Tense.ConditionalPerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} would have been";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} would not have been";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"would {subjectText} have been";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"would {subjectText} not have been";
-									break;
-							}
-							break;
-					}
+					result = TensifyVerb(tense,specificity,"am","was","were","been","be","being",subjectText);
 					break;
 				case Subject.FirstPlural:
 					subjectText = subjectText != null ? subjectText : "we";
-					switch(tense) {
-						case Tense.Present:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} are";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} are not";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"are {subjectText}";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"are {subjectText} not";
-									break;
-							}
-							break;
-						case Tense.Perfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} have been";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} have not been";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"have {subjectText} been";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"have {subjectText} not been";
-									break;
-							}
-							break;
-						case Tense.Plurperfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} had been";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} had not been";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"had {subjectText} been";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"had {subjectText} not been";
-									break;
-							}
-							break;
-						case Tense.Past:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} were";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} were not";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"were {subjectText}";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"were {subjectText} not";
-									break;
-							}
-							break;
-						case Tense.FuturePerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will have been";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not have been";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} have been";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not have been";
-									break;
-							}
-							break;
-						case Tense.Future:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will be";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not be";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} be";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not be";
-									break;
-							}
-							break;
-						case Tense.ContinuousPresent:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} are being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} are not being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"are {subjectText} being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"are {subjectText} not being";
-									break;
-							}
-							break;
-						case Tense.ContinuousPluperfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} had been being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} had not been being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"had {subjectText} been being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"had {subjectText} not been being";
-									break;
-							}
-							break;
-						case Tense.ContinuousPerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will be being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not be being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} be being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not being";
-									break;
-							}
-							break;
-						case Tense.ContinuousPast:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} were being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} were not being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"were {subjectText} being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"were {subjectText} not being";
-									break;
-							}
-							break;
-						case Tense.ContinuousFuturePerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will have been being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not have been being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} have been being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not have been being";
-									break;
-							}
-							break;
-						case Tense.ContinuousFuture:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will be being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not be being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} be being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not be being";
-									break;
-							}
-							break;
-						case Tense.ContinuousConditionalPresent:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} would be being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} would not be being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"would {subjectText} be being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"would {subjectText} not be being";
-									break;
-							}
-							break;
-						case Tense.ContinuousConditionalPerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} would have been being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} would not have been being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"would {subjectText} have been being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"would {subjectText} not have been being";
-									break;
-							}
-							break;
-						case Tense.ConditionalPresent:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} would be";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} would not be";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"would {subjectText} be";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"would {subjectText} not be";
-									break;
-							}
-							break;
-						case Tense.ConditionalPerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} would have been";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} would not have been";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"would {subjectText} have been";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"would {subjectText} not have been";
-									break;
-							}
-							break;
-					}
+					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText);
 					break;
 				case Subject.SecondSingular:
 				case Subject.SecondPlural:
 					subjectText = subjectText != null ? subjectText : "you";
-					SecondSubjectCase:
-					switch(tense) {
-						case Tense.Present:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} are";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} are not";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"are {subjectText}";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"are {subjectText} not";
-									break;
-							}
-							break;
-						case Tense.Perfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} have been";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} have not been";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"have {subjectText} been";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"have {subjectText} not been";
-									break;
-							}
-							break;
-						case Tense.Plurperfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} had been";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} had not been";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"had {subjectText} been";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"had {subjectText} not been";
-									break;
-							}
-							break;
-						case Tense.Past:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} were";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} were not";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"were {subjectText}";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"were {subjectText} not";
-									break;
-							}
-							break;
-						case Tense.FuturePerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will have been";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not have been";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} have been";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not have been";
-									break;
-							}
-							break;
-						case Tense.Future:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will be";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not be";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} be";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not be";
-									break;
-							}
-							break;
-						case Tense.ContinuousPresent:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} are being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} are not being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"are {subjectText} being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"are {subjectText} not being";
-									break;
-							}
-							break;
-						case Tense.ContinuousPluperfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} had been being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} had not been being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"had {subjectText} been being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"had {subjectText} not been being";
-									break;
-							}
-							break;
-						case Tense.ContinuousPerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will be being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not be being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} be being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not being";
-									break;
-							}
-							break;
-						case Tense.ContinuousPast:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} were being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} were not being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"were {subjectText} being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"were {subjectText} not being";
-									break;
-							}
-							break;
-						case Tense.ContinuousFuturePerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will have been being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not have been being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} have been being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not have been being";
-									break;
-							}
-							break;
-						case Tense.ContinuousFuture:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will be being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not be being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} be being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not be being";
-									break;
-							}
-							break;
-						case Tense.ContinuousConditionalPresent:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} would be being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} would not be being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"would {subjectText} be being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"would {subjectText} not be being";
-									break;
-							}
-							break;
-						case Tense.ContinuousConditionalPerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} would have been being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} would not have been being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"would {subjectText} have been being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"would {subjectText} not have been being";
-									break;
-							}
-							break;
-						case Tense.ConditionalPresent:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} would be";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} would not be";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"would {subjectText} be";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"would {subjectText} not be";
-									break;
-							}
-							break;
-						case Tense.ConditionalPerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} would have been";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} would not have been";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"would {subjectText} have been";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"would {subjectText} not have been";
-									break;
-							}
-							break;
-					}
+					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText);
 					break;
+
 				case Subject.ThirdMasculine:
 					subjectText = subjectText != null ? subjectText : "he";
-					goto default;
+					result = TensifyVerb(tense,specificity,"is","was","were","been","be","being",subjectText);
+					break;
 				case Subject.ThirdFeminine:
 					subjectText = subjectText != null ? subjectText : "she";
-					goto default;
+					result = TensifyVerb(tense,specificity,"is","was","were","been","be","being",subjectText);
+					break;
 				case Subject.ThirdInanimate:
 					subjectText = subjectText != null ? subjectText : "it";
-					goto default;
+					result = TensifyVerb(tense,specificity,"is","was","were","been","be","being",subjectText);
+					break;
+
 				case Subject.ThirdNeutral:
 				case Subject.ThirdPlural:
 					subjectText = subjectText != null ? subjectText : "they";
-					goto SecondSubjectCase;
-				default:
-					switch(tense) {
-						case Tense.Present:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} is";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} is not";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"is {subjectText}";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"is {subjectText} not";
-									break;
-							}
-							break;
-						case Tense.Perfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} has been";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} has not been";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"has {subjectText} been";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"has {subjectText} not been";
-									break;
-							}
-							break;
-						case Tense.Plurperfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} had been";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} had not been";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"had {subjectText} been";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"had {subjectText} not been";
-									break;
-							}
-							break;
-						case Tense.Past:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} was";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} was not";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"was {subjectText}";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"was {subjectText} not";
-									break;
-							}
-							break;
-						case Tense.FuturePerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will have been";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not have been";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} have been";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not have been";
-									break;
-							}
-							break;
-						case Tense.Future:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will be";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not be";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} be";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not be";
-									break;
-							}
-							break;
-						case Tense.ContinuousPresent:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} is being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} is not being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"is {subjectText} being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"is {subjectText} not being";
-									break;
-							}
-							break;
-						case Tense.ContinuousPluperfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} had been being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} had not been being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"had {subjectText} been being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"had {subjectText} not been being";
-									break;
-							}
-							break;
-						case Tense.ContinuousPerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will be being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not be being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} be being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not being";
-									break;
-							}
-							break;
-						case Tense.ContinuousPast:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} was being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} was not being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"was {subjectText} being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"was {subjectText} not being";
-									break;
-							}
-							break;
-						case Tense.ContinuousFuturePerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will have been being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not have been being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} have been being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not have been being";
-									break;
-							}
-							break;
-						case Tense.ContinuousFuture:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} will be being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} will not be being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"will {subjectText} be being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"will {subjectText} not be being";
-									break;
-							}
-							break;
-						case Tense.ContinuousConditionalPresent:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} would be being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} would not be being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"would {subjectText} be being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"would {subjectText} not be being";
-									break;
-							}
-							break;
-						case Tense.ContinuousConditionalPerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} would have been being";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} would not have been being";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"would {subjectText} have been being";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"would {subjectText} not have been being";
-									break;
-							}
-							break;
-						case Tense.ConditionalPresent:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} would be";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} would not be";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"would {subjectText} be";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"would {subjectText} not be";
-									break;
-							}
-							break;
-						case Tense.ConditionalPerfect:
-							switch(specificity) {
-								case Specificity.PositiveStatement:
-									result = $"{subjectText} would have been";
-									break;
-								case Specificity.NegativeStatement:
-									result = $"{subjectText} would not have been";
-									break;
-								case Specificity.PositiveQuestion:
-									result = $"would {subjectText} have been";
-									break;
-								case Specificity.NegativeQuestion:
-									result = $"would {subjectText} not have been";
-									break;
-							}
-							break;
-					}
+					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText);
 					break;
 			}
 			var flags = FragmentFlags.Predicate;
