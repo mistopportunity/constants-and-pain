@@ -77,6 +77,17 @@ namespace non_original_idea {
 			}
 		}
 
+		public static string ConjugateHave(Subject subject) {
+			switch(subject) {
+				case Subject.ThirdMasculine:
+				case Subject.ThirdInanimate:
+				case Subject.ThirdFeminine:
+					return "has";
+				default:
+					return "have";
+			}
+		}
+
 		public static string ConjugateDo(Subject subject) {
 			switch(subject) {
 				case Subject.ThirdMasculine:
@@ -135,7 +146,9 @@ namespace non_original_idea {
 				verb.gerund,
 				subjectText,
 				verb.subjectVerbInversion,
-				(verb.subjectVerbInversion ? null : ConjugateDo(subject) )
+				(verb.subjectVerbInversion ? null : ConjugateDo(subject)),
+				ConjugateHave(subject)
+
 			));
 
 		}
@@ -158,7 +171,8 @@ namespace non_original_idea {
 
 			bool questionIncludesSVInversion = true,
 
-			string conjugatedDo = null
+			string conjugatedDo = null,
+			string conjugatedHave = "have"
 
 		) {
 			string result = null;
@@ -175,7 +189,7 @@ namespace non_original_idea {
 							result = $"{subjectText} {imperfectVerb}";
 							break;
 						case Tense.Perfect:
-							result = $"{subjectText} have {participle}";
+							result = $"{subjectText} {conjugatedHave} {participle}";
 							break;
 						case Tense.Plurperfect:
 							result = $"{subjectText} had {participle}";
@@ -193,7 +207,7 @@ namespace non_original_idea {
 							result = $"{subjectText} had been {gerund}";
 							break;
 						case Tense.ContinuousPerfect:
-							result = $"{subjectText} have been {gerund}";
+							result = $"{subjectText} {conjugatedHave} been {gerund}";
 							break;
 						case Tense.ContinuousPast:
 							result = $"{subjectText} {conjugatedVerbPast} {gerund}";
@@ -242,7 +256,7 @@ namespace non_original_idea {
 							}
 							break;
 						case Tense.Perfect:
-							result = $"have {subjectText} {participle}";
+							result = $"{conjugatedHave} {subjectText} {participle}";
 							break;
 						case Tense.Plurperfect:
 							result = $"had {subjectText} {participle}";
@@ -260,7 +274,7 @@ namespace non_original_idea {
 							result = $"had {subjectText} been {gerund}";
 							break;
 						case Tense.ContinuousPerfect:
-							result = $"have {subjectText} been {gerund}";
+							result = $"{conjugatedHave} {subjectText} been {gerund}";
 							break;
 						case Tense.ContinuousPast:
 							result = $"{conjugatedVerbPast} {subjectText} {gerund}";
@@ -297,7 +311,7 @@ namespace non_original_idea {
 							result = $"{subjectText} {imperfectVerb} not";
 							break;
 						case Tense.Perfect:
-							result = $"{subjectText} have not {participle}";
+							result = $"{subjectText} {conjugatedHave} not {participle}";
 							break;
 						case Tense.Plurperfect:
 							result = $"{subjectText} had not {participle}";
@@ -315,7 +329,7 @@ namespace non_original_idea {
 							result = $"{subjectText} had not been {gerund}";
 							break;
 						case Tense.ContinuousPerfect:
-							result = $"{subjectText} have not been {gerund}";
+							result = $"{subjectText} {conjugatedHave} not been {gerund}";
 							break;
 						case Tense.ContinuousPast:
 							result = $"{subjectText} {conjugatedVerbPast} not {gerund}";
@@ -364,7 +378,7 @@ namespace non_original_idea {
 							}
 							break;
 						case Tense.Perfect:
-							result = $"have {subjectText} not {participle}";
+							result = $"{conjugatedHave} {subjectText} not {participle}";
 							break;
 						case Tense.Plurperfect:
 							result = $"had {subjectText} not {participle}";
@@ -382,7 +396,7 @@ namespace non_original_idea {
 							result = $"had {subjectText} not been {gerund}";
 							break;
 						case Tense.ContinuousPerfect:
-							result = $"have {subjectText} not been {gerund}";
+							result = $"{conjugatedHave} {subjectText} not been {gerund}";
 							break;
 						case Tense.ContinuousPast:
 							result = $"{conjugatedVerbPast} {subjectText} not {gerund}";

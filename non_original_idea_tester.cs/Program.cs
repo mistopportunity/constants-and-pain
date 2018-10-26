@@ -4,7 +4,7 @@ using non_original_idea;
 
 namespace non_original_idea_tester.cs {
 	class Program {
-		static void Main2() {
+		static void Main() {
 
 			foreach(Subject subject in ConstantsAndPain.Subjects) {
 
@@ -38,7 +38,7 @@ namespace non_original_idea_tester.cs {
 			Console.ReadKey(true);
 		}
 
-		static void Main() {
+		static void Main3() {
 
 			List<SentenceFragment> fragments = new List<SentenceFragment>();
 
@@ -68,7 +68,7 @@ namespace non_original_idea_tester.cs {
 
 		}
 
-		static void Main3() {
+		static void Main4() {
 
 			var random = new Random();
 
