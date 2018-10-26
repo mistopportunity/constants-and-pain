@@ -4,7 +4,36 @@ using non_original_idea;
 
 namespace non_original_idea_tester.cs {
 	class Program {
+
 		static void Main() {
+
+
+			CustomVerbsTest();
+
+
+
+			Console.ReadKey(true);
+		}
+
+
+		static void CustomVerbsTest() {
+
+			var runVerb = new Verb(
+				"create","creating","create","create",false,
+				new Dictionary<Subject,string>() {
+					{Subject.FirstPlural, ""}
+				},
+				new Dictionary<Subject,string>() {
+
+				}
+			);
+
+
+
+
+		}
+
+		static void BruteForceTest() {
 
 			foreach(Subject subject in ConstantsAndPain.Subjects) {
 
@@ -27,18 +56,13 @@ namespace non_original_idea_tester.cs {
 							fragment,
 							adjective
 						);
-
 						Console.WriteLine(sentence);
-
 					}
 				}
-
 			}
-
-			Console.ReadKey(true);
 		}
 
-		static void Main3() {
+		static void BasicConditionalSentenceTest() {
 
 			List<SentenceFragment> fragments = new List<SentenceFragment>();
 
@@ -64,11 +88,9 @@ namespace non_original_idea_tester.cs {
 
 			Console.WriteLine(sentence);
 
-			Console.ReadKey(true);
-
 		}
 
-		static void Main4() {
+		static void ConditionalBlendTest() {
 
 			var random = new Random();
 
@@ -125,8 +147,6 @@ namespace non_original_idea_tester.cs {
 				}
 
 			}
-
-			Console.ReadKey(true);
 
 		}
 	}

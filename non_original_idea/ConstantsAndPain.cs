@@ -76,7 +76,7 @@ namespace non_original_idea {
 			}
 		}
 
-		public static string ConjugateHave(Subject subject) {
+		internal static string GetConjugatedHave(Subject subject) {
 			switch(subject) {
 				case Subject.ThirdMasculine:
 				case Subject.ThirdInanimate:
@@ -87,7 +87,7 @@ namespace non_original_idea {
 			}
 		}
 
-		public static string ConjugateDo(Subject subject) {
+		internal static string GetConjugatedDo(Subject subject) {
 			switch(subject) {
 				case Subject.ThirdMasculine:
 				case Subject.ThirdInanimate:
@@ -120,6 +120,41 @@ namespace non_original_idea {
 			}
 		}
 
+		internal static string GetVerbToBeFlat(Subject subject) {
+			switch(subject) {
+				case Subject.FirstSingular:
+					return "am";
+				case Subject.FirstPlural:
+				case Subject.SecondPlural:
+				case Subject.SecondSingular:
+				case Subject.ThirdNeutral:
+				case Subject.ThirdPlural:
+					return "are";
+				default:
+				case Subject.ThirdFeminine:
+				case Subject.ThirdInanimate:
+				case Subject.ThirdMasculine:
+					return "is";
+			}
+		}
+
+		internal static string GetVerbToBeFlatPast(Subject subject) {
+			switch(subject) {
+				case Subject.FirstPlural:
+				case Subject.SecondPlural:
+				case Subject.SecondSingular:
+				case Subject.ThirdNeutral:
+				case Subject.ThirdPlural:
+					return "were";
+				default:
+				case Subject.FirstSingular:
+				case Subject.ThirdFeminine:
+				case Subject.ThirdInanimate:
+				case Subject.ThirdMasculine:
+					return "was";
+			}
+		}
+
 		public static SentenceFragment TensifyVerb (
 			Subject subject,
 			Tense tense,
@@ -135,14 +170,17 @@ namespace non_original_idea {
 				specificity,
 				verb.conjugations[subject],
 				verb.pastConjugations[subject],
-				verb.imperfect,
+				//the ghetto imperfect case woot
+				verb.pastConjugations[Subject.ThirdNeutral],
 				verb.participle,
 				verb.flatInfinitive,
 				verb.gerund,
 				subjectText,
 				verb.subjectVerbInversion,
-				(verb.subjectVerbInversion ? null : ConjugateDo(subject)),
-				ConjugateHave(subject)
+				(verb.subjectVerbInversion ? null : GetConjugatedDo(subject)),
+				GetConjugatedHave(subject),
+				GetVerbToBeFlat(subject),
+				GetVerbToBeFlatPast(subject);
 			));
 		}
 
@@ -164,7 +202,10 @@ namespace non_original_idea {
 			bool questionIncludesSVInversion,
 
 			string conjugatedDo,
-			string conjugatedHave
+			string conjugatedHave,
+
+			string conjugatedVerbToBe,
+			string conjugatedVerbToBePast
 
 		) {
 			string result = null;
@@ -193,7 +234,7 @@ namespace non_original_idea {
 							result = $"{subjectText} will {flatInfinitive}";
 							break;
 						case Tense.ContinuousPresent:
-							result = $"{subjectText} {conjugatedVerb} {gerund}";
+							result = $"{subjectText} {conjugatedVerbToBe} {gerund}";
 							break;
 						case Tense.ContinuousPluperfect:
 							result = $"{subjectText} had been {gerund}";
@@ -202,7 +243,7 @@ namespace non_original_idea {
 							result = $"{subjectText} {conjugatedHave} been {gerund}";
 							break;
 						case Tense.ContinuousPast:
-							result = $"{subjectText} {conjugatedVerbPast} {gerund}";
+							result = $"{subjectText} {conjugatedVerbToBePast} {gerund}";
 							break;
 						case Tense.ContinuousFuturePerfect:
 							result = $"{subjectText} will have been {gerund}";
@@ -260,7 +301,7 @@ namespace non_original_idea {
 							result = $"will {subjectText} {flatInfinitive}";
 							break;
 						case Tense.ContinuousPresent:
-							result = $"{conjugatedVerb} {subjectText} {gerund}";
+							result = $"{conjugatedVerbToBe} {subjectText} {gerund}";
 							break;
 						case Tense.ContinuousPluperfect:
 							result = $"had {subjectText} been {gerund}";
@@ -269,7 +310,7 @@ namespace non_original_idea {
 							result = $"{conjugatedHave} {subjectText} been {gerund}";
 							break;
 						case Tense.ContinuousPast:
-							result = $"{conjugatedVerbPast} {subjectText} {gerund}";
+							result = $"{conjugatedVerbToBePast} {subjectText} {gerund}";
 							break;
 						case Tense.ContinuousFuturePerfect:
 							result = $"will {subjectText} have been {gerund}";
@@ -315,7 +356,7 @@ namespace non_original_idea {
 							result = $"{subjectText} will not {flatInfinitive}";
 							break;
 						case Tense.ContinuousPresent:
-							result = $"{subjectText} {conjugatedVerb} not {gerund}";
+							result = $"{subjectText} {conjugatedVerbToBe} not {gerund}";
 							break;
 						case Tense.ContinuousPluperfect:
 							result = $"{subjectText} had not been {gerund}";
@@ -324,7 +365,7 @@ namespace non_original_idea {
 							result = $"{subjectText} {conjugatedHave} not been {gerund}";
 							break;
 						case Tense.ContinuousPast:
-							result = $"{subjectText} {conjugatedVerbPast} not {gerund}";
+							result = $"{subjectText} {conjugatedVerbToBePast} not {gerund}";
 							break;
 						case Tense.ContinuousFuturePerfect:
 							result = $"{subjectText} will not have been {gerund}";
@@ -382,7 +423,7 @@ namespace non_original_idea {
 							result = $"will {subjectText} not {flatInfinitive}";
 							break;
 						case Tense.ContinuousPresent:
-							result = $"{conjugatedVerb} {subjectText} not {gerund}";
+							result = $"{conjugatedVerb} {conjugatedVerbToBe} not {gerund}";
 							break;
 						case Tense.ContinuousPluperfect:
 							result = $"had {subjectText} not been {gerund}";
@@ -391,7 +432,7 @@ namespace non_original_idea {
 							result = $"{conjugatedHave} {subjectText} not been {gerund}";
 							break;
 						case Tense.ContinuousPast:
-							result = $"{conjugatedVerbPast} {subjectText} not {gerund}";
+							result = $"{conjugatedVerbPast} {conjugatedVerbToBePast} not {gerund}";
 							break;
 						case Tense.ContinuousFuturePerfect:
 							result = $"will {subjectText} not have been {gerund}";
@@ -428,34 +469,36 @@ namespace non_original_idea {
 			switch(subject) {
 				case Subject.FirstSingular:
 					subjectText = subjectText != null ? subjectText : "I";
-					result = TensifyVerb(tense,specificity,"am","was","were","been","be","being",subjectText,true,"do","have");
+					result = TensifyVerb(tense,specificity,"am","was","were","been","be","being",subjectText,true,"do","have","am","was");
 					break;
 				case Subject.FirstPlural:
 					subjectText = subjectText != null ? subjectText : "we";
-					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText,true,"do","have");
+					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText,true,"do","have","are","were");
 					break;
 				case Subject.SecondSingular:
 				case Subject.SecondPlural:
 					subjectText = subjectText != null ? subjectText : "you";
-					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText,true,"do","have");
+					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText,true,"do","have","are","were");
 					break;
 
 				case Subject.ThirdMasculine:
 					subjectText = subjectText != null ? subjectText : "he";
-					result = TensifyVerb(tense,specificity,"is","was","were","been","be","being",subjectText,true,"do","has");
-					break;
+					goto default;
 				case Subject.ThirdFeminine:
 					subjectText = subjectText != null ? subjectText : "she";
-					result = TensifyVerb(tense,specificity,"is","was","were","been","be","being",subjectText,true,"do","has");
-					break;
+					goto default;
 				case Subject.ThirdInanimate:
 					subjectText = subjectText != null ? subjectText : "it";
-					result = TensifyVerb(tense,specificity,"is","was","were","been","be","being",subjectText,true,"do","has");
+					goto default;
+
+				default:
+					result = TensifyVerb(tense,specificity,"is","was","were","been","be","being",subjectText,true,"do","has","is","was");
 					break;
+
 				case Subject.ThirdNeutral:
 				case Subject.ThirdPlural:
 					subjectText = subjectText != null ? subjectText : "they";
-					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText,true,"do","have");
+					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText,true,"do","have","is","was");
 					break;
 			}
 
