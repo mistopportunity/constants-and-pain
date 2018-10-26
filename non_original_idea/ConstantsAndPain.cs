@@ -421,16 +421,6 @@ namespace non_original_idea {
 			Subject subject,
 			Tense tense = Tense.Present,
 			Specificity specificity = Specificity.PositiveStatement,
-			Verb gerundVerb = null,
-			string subjectText = null
-		) {
-			return GetVerbToBe(subject,tense,specificity,subjectText,gerundVerb);
-		}
-
-		public static SentenceFragment GetVerbToBe (
-			Subject subject,
-			Tense tense = Tense.Present,
-			Specificity specificity = Specificity.PositiveStatement,
 			string subjectText = null,
 			Verb gerundVerb = null
 		) {
