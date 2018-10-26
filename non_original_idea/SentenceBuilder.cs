@@ -7,17 +7,17 @@ namespace non_original_idea {
 
 		public static string Build(
 			bool startCapital,
-			char endPuncuation,
+			char punctuation,
 			params SentenceFragment[] sentenceFragments
 		) {
-			return Build(sentenceFragments,startCapital,endPuncuation);
+			return Build(sentenceFragments,startCapital,punctuation);
 		}
 
 		public static string Build(
-			char endPuncuation,
+			char punctuation,
 			params SentenceFragment[] sentenceFragments
 		) {
-			return Build(sentenceFragments,startCapital: true,endPuncuation: endPuncuation);
+			return Build(sentenceFragments,startCapital: true,punctuation: punctuation);
 		}
 
 		public static string Build (
@@ -29,7 +29,7 @@ namespace non_original_idea {
 		public static string Build (
 			IEnumerable<SentenceFragment> sentenceFragments,
 			bool startCapital = true,
-			char endPuncuation = '.'
+			char punctuation = '.'
 		) {
 			StringBuilder stringBuilder = new StringBuilder();
 
@@ -45,7 +45,7 @@ namespace non_original_idea {
 			return
 				$"{startCharacter}" +
 				$"{sentence.Substring(1,sentence.Length-2)}" +
-				$"{endPuncuation}";
+				$"{punctuation}";
 		}
 	}
 }

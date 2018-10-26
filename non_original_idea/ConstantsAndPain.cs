@@ -13,6 +13,25 @@ namespace non_original_idea {
 		public static readonly Array Specificities = Enum.GetValues(typeof(Specificity));
 		public static readonly Array Tenses = Enum.GetValues(typeof(Tense));
 
+		public static readonly Tense[] ConditionalTenses = new Tense[]{
+			Tense.ConditionalPerfect,
+			Tense.ConditionalPresent,
+			Tense.ContinuousConditionalPerfect,
+			Tense.ContinuousConditionalPresent
+		};
+
+		public static char GetPunctuation(Specificity specificity) {
+			switch(specificity) {
+				default:
+				case Specificity.PositiveStatement:
+				case Specificity.NegativeStatement:
+					return '.';
+				case Specificity.PositiveQuestion:
+				case Specificity.NegativeQuestion:
+					return '?';
+			}
+		}
+
 		public static Tense GetRandomConditionalTense(Random random) {
 			switch(random.Next(0,4)) {
 				default:
@@ -25,6 +44,38 @@ namespace non_original_idea {
 				case 3:
 					return Tense.ContinuousConditionalPerfect;
 			}
+		}
+
+		public static Tense GetRandomNonConditionalTense(Random random) {
+			switch(random.Next(0,12)) {
+				case 0:
+					return Tense.ContinuousFuture;
+				case 1:
+					return Tense.ContinuousFuturePerfect;
+				case 2:
+					return Tense.ContinuousPast;
+				case 3:
+					return Tense.ContinuousPerfect;
+				case 4:
+					return Tense.ContinuousPluperfect;
+				case 5:
+					return Tense.ContinuousPresent;
+				case 6:
+					return Tense.Future;
+				case 7:
+					return Tense.FuturePerfect;
+				case 8:
+					return Tense.Past;
+				case 9:
+					return Tense.Perfect;
+				case 10:
+					return Tense.Plurperfect;
+				default:
+				case 11:
+					return Tense.Present;
+					
+			}
+
 		}
 
 		public static SentenceFragment GetVerbToBePredicate (
