@@ -411,11 +411,12 @@ namespace non_original_idea {
 			return result;
 		}
 
-		public static SentenceFragment GetVerbToBePredicate (
+		public static SentenceFragment GetVerbToBe(
 			Subject subject,
 			Tense tense = Tense.Present,
 			Specificity specificity = Specificity.PositiveStatement,
-			string subjectText = null
+			string subjectText = null,
+			Verb gerundVerb = null
 		) {
 			string result = null;
 			switch(subject) {
@@ -452,15 +453,32 @@ namespace non_original_idea {
 					result = TensifyVerb(tense,specificity,"are","were","were","been","be","being",subjectText);
 					break;
 			}
-			var flags = FragmentFlags.Predicate;
+
+			if(gerundVerb != null) {
+				result += $" {gerundVerb.gerund}";
+			}
+
+			FragmentFlags flags = FragmentFlags.None;
+			if(tense.IsConditionalTense()) {
+				flags = flags | FragmentFlags.Conditional;
+			}
+			if(tense.IsContinuousTense()) {
+				flags = flags | FragmentFlags.Continuous;
+			}
+			return new SentenceFragment(result,flags);
+		}
+		internal static bool IsConditionalTense(this Tense tense) {
 			switch(tense) {
 				case Tense.ConditionalPresent:
 				case Tense.ConditionalPerfect:
 				case Tense.ContinuousConditionalPresent:
 				case Tense.ContinuousConditionalPerfect:
-					flags = flags | FragmentFlags.Conditional;
-					break;
+					return true;
+				default:
+					return false;
 			}
+		}
+		internal static bool IsContinuousTense(this Tense tense) {
 			switch(tense) {
 				case Tense.ContinuousConditionalPresent:
 				case Tense.ContinuousConditionalPerfect:
@@ -470,10 +488,10 @@ namespace non_original_idea {
 				case Tense.ContinuousFuturePerfect:
 				case Tense.ContinuousPluperfect:
 				case Tense.ContinuousPerfect:
-					flags = flags | FragmentFlags.Continuous;
-					break;
+					return true;
+				default:
+					return false;
 			}
-			return new SentenceFragment(result,FragmentFlags.Predicate);
 		}
 	}
 }

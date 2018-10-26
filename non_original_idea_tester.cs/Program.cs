@@ -4,7 +4,7 @@ using non_original_idea;
 
 namespace non_original_idea_tester.cs {
 	class Program {
-		static void Main() {
+		static void Main2() {
 
 			foreach(Subject subject in ConstantsAndPain.Subjects) {
 
@@ -12,7 +12,7 @@ namespace non_original_idea_tester.cs {
 
 					foreach(Tense tense in ConstantsAndPain.Tenses) {
 
-						var fragment = ConstantsAndPain.GetVerbToBePredicate(
+						var fragment = ConstantsAndPain.GetVerbToBe(
 							subject,
 							tense,
 							specificity
@@ -38,13 +38,13 @@ namespace non_original_idea_tester.cs {
 			Console.ReadKey(true);
 		}
 
-		static void Main4() {
+		static void Main() {
 
 			List<SentenceFragment> fragments = new List<SentenceFragment>();
 
 			fragments.Add(new SentenceFragment("if"));
 
-			fragments.Add(ConstantsAndPain.GetVerbToBePredicate(
+			fragments.Add(ConstantsAndPain.GetVerbToBe(
 				Subject.FirstSingular,
 				Tense.ContinuousPast,
 				Specificity.NegativeStatement
@@ -52,7 +52,7 @@ namespace non_original_idea_tester.cs {
 
 			fragments.Add(new SentenceFragment("so mean,"));
 
-			fragments.Add(ConstantsAndPain.GetVerbToBePredicate(
+			fragments.Add(ConstantsAndPain.GetVerbToBe(
 				Subject.FirstSingular,
 				Tense.ConditionalPerfect,
 				Specificity.PositiveQuestion
@@ -78,7 +78,7 @@ namespace non_original_idea_tester.cs {
 
 					List<SentenceFragment> fragments = new List<SentenceFragment>();
 
-					fragments.Add(ConstantsAndPain.GetVerbToBePredicate(
+					fragments.Add(ConstantsAndPain.GetVerbToBe(
 						Subject.ThirdFeminine,
 						tense,
 						specificity,
@@ -106,7 +106,7 @@ namespace non_original_idea_tester.cs {
 
 					}
 
-					fragments.Add(ConstantsAndPain.GetVerbToBePredicate(
+					fragments.Add(ConstantsAndPain.GetVerbToBe(
 						Subject.ThirdMasculine,
 						ifClauseTense,
 						Specificity.NegativeStatement,

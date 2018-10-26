@@ -6,8 +6,7 @@ namespace non_original_idea {
 	[Flags]
 	public enum FragmentFlags {
 		None = 0,
-		Predicate = 1,
-		Conditional = 2,
-		Continuous = 4,
+		Conditional = 1,
+		Continuous = 2,
 	}
 }
