@@ -77,6 +77,16 @@ namespace non_original_idea {
 			}
 		}
 
+		public static string ConjugateDo(Subject subject) {
+			switch(subject) {
+				case Subject.ThirdMasculine:
+				case Subject.ThirdInanimate:
+				case Subject.ThirdFeminine:
+					return "does";
+				default:
+					return "do";
+			}
+		}
 
 		internal static string TensifyVerb(
 
@@ -94,8 +104,7 @@ namespace non_original_idea {
 
 			bool questionIncludesSVInversion = true,
 
-			string conjugatedDo = null,
-			string conjugatedDoPast = null
+			string conjugatedDo = null
 
 
 		) {
@@ -169,7 +178,7 @@ namespace non_original_idea {
 							if(questionIncludesSVInversion) {
 								result = $"{conjugatedVerbPast} {subjectText}";
 							} else {
-								result = $"{conjugatedDoPast} {subjectText} {flatInfinitive}";
+								result = $"did {subjectText} {flatInfinitive}";
 							}
 							break;
 						case Tense.Imperfect:
@@ -291,7 +300,7 @@ namespace non_original_idea {
 							if(questionIncludesSVInversion) {
 								result = $"{conjugatedVerbPast} {subjectText} not";
 							} else {
-								result = $"{conjugatedDoPast} {subjectText} not {flatInfinitive}";
+								result = $"did {subjectText} not {flatInfinitive}";
 							}
 							break;
 						case Tense.Imperfect:
