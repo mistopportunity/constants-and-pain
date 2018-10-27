@@ -19,6 +19,28 @@ namespace non_original_idea_tester.cs {
 		}
 
 
+		static void TestContractions() {
+
+			var tests = new List<Tuple<Subject,Tense,Specificity>>();
+
+			tests.Add(new Tuple<Subject,Tense,Specificity>(
+				Subject.FirstPlural,Tense.Perfect,Specificity.NegativeStatement
+			));
+
+			foreach(var test in tests) {
+
+				var bob = new SentenceBuilder();
+
+				bob.Add(GetVerbToBe(test.Item1,test.Item2,test.Item3));
+
+				var sentence = bob.Build('.',true,BasicContractions);
+
+				Console.WriteLine(sentence);
+			}
+
+		}
+
+
 		static void LaughableAutoConjugator() {
 
 			var create = VerbGenerator.ConjugateUnsafelyAndRegularly("create");
@@ -48,7 +70,7 @@ namespace non_original_idea_tester.cs {
 						bob.Add("on my cat");
 
 
-						Console.WriteLine(bob.Build(true,GetPunctuation(specificity)));
+						Console.WriteLine(bob.Build(GetPunctuation(specificity)));
 
 						Console.WriteLine();
 
@@ -108,28 +130,33 @@ namespace non_original_idea_tester.cs {
 
 		static void BruteForceTest() {
 
+
 			foreach(Subject subject in Subjects) {
 
 				foreach(Specificity specificity in Specificities) {
 
 					foreach(Tense tense in Tenses) {
 
-						var fragment = GetVerbToBe(
+						var bob = new SentenceBuilder();
+
+						bob.Add(GetVerbToBe(
 							subject,
 							tense,
 							specificity
-						);
+						));
 
-						var adjective = new SentenceFragment("constipated");
+						bob.Add("confusing");
 
 						char punctuation = GetPunctuation(specificity);
 
-						var sentence = SentenceBuilder.Build(
-							punctuation,
-							fragment,
-							adjective
-						);
-						Console.WriteLine(sentence);
+						var sentence1 = bob.Build(punctuation,true,null);
+
+						var sentence2 = bob.Build(punctuation,true,BasicContractions);
+
+						//Console.WriteLine(string.Join("-",subject,specificity,tense));
+						Console.WriteLine(sentence1);
+						Console.WriteLine(sentence2);
+						Console.WriteLine();
 					}
 				}
 			}
@@ -137,7 +164,7 @@ namespace non_original_idea_tester.cs {
 
 		static void BasicConditionalSentenceTest() {
 
-			List<SentenceFragment> fragments = new List<SentenceFragment>();
+			var fragments = new SentenceBuilder();
 
 			fragments.Add(new SentenceFragment("if"));
 
@@ -157,7 +184,7 @@ namespace non_original_idea_tester.cs {
 
 			fragments.Add(new SentenceFragment("nicer"));
 
-			var sentence = SentenceBuilder.Build(fragments,true,'?');
+			var sentence = fragments.Build('?');
 
 			Console.WriteLine(sentence);
 
@@ -171,7 +198,7 @@ namespace non_original_idea_tester.cs {
 
 				foreach(Tense tense in ConditionalTenses) {
 
-					List<SentenceFragment> fragments = new List<SentenceFragment>();
+					var fragments = new SentenceBuilder();
 
 					fragments.Add(GetVerbToBe(
 						Subject.ThirdFeminine,
@@ -212,7 +239,7 @@ namespace non_original_idea_tester.cs {
 
 
 					char punctuation = GetPunctuation(specificity);
-					var sentence = SentenceBuilder.Build(fragments,true,punctuation);
+					var sentence = fragments.Build(punctuation);
 
 					Console.WriteLine(sentence);
 

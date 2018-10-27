@@ -9,16 +9,72 @@ namespace non_original_idea {
 
 	public static class ConstantsAndPain {
 
+		public static readonly Contraction[] BasicContractions = {
+			//Priority ordered. Put more complex chains at the top.
+
+			new Contraction("wouldn't {}",@"(would) (\S*) not",true),
+			new Contraction("won't {}",@"(will) (\S*) not",true),
+			new Contraction("didn't {}",@"(did) (\S*) not",true),
+			new Contraction("doesn't {}",@"(does) (\S*) not",true),
+			new Contraction("don't {}",@"(do) (\S*) not",true),
+			new Contraction("couldn't {}",@"(could) (\S*) not",true),
+			new Contraction("hadn't {}",@"(had) (\S*) not",true),
+			new Contraction("isn't {}",@"(is) (\S*) not",true),
+			new Contraction("mustn't {}",@"(must) (\S*) not",true),
+			new Contraction("wasn't {}",@"(was) (\S*) not",true),
+			new Contraction("haven't {}",@"(have) (\S*) not",true),
+			new Contraction("aren't {}",@"(are) (\S*) not",true),
+			new Contraction("weren't {}",@"(were) (\S*) not",true),
+
+			new Contraction("wouldn't","would not"),
+			new Contraction("won't","will not"),
+			new Contraction("didn't","did not"),
+			new Contraction("doesn't","does not"),
+			new Contraction("don't","do not"),
+			new Contraction("couldn't","could not"),
+			new Contraction("hadn't","had not"),
+			new Contraction("isn't","is not"),
+			new Contraction("mustn't","must not"),
+			new Contraction("wasn't","was not"),
+			new Contraction("haven't","have not"),
+
+			new Contraction("they'll","they will"),
+			new Contraction("how'd","how did"),
+			new Contraction("how's","how is"),
+			new Contraction("I'll","I will"),
+			new Contraction("I'm","I am"),
+			new Contraction("it'd","it would"),
+			new Contraction("it'll","it will"),
+			new Contraction("it's","it is"),
+			new Contraction("let's","let us"),
+			new Contraction("might've","might have"),
+			new Contraction("must've","must have"),
+			new Contraction("she'd","she had"),
+
+			new Contraction("she'd","she would"),
+			new Contraction("I'd","I would"),
+			new Contraction("he'd","he had"),
+			new Contraction("he'd","he would"),
+			new Contraction("we'd","we would"),
+			new Contraction("you'd","you would"),
+
+			new Contraction("we've","we have"),
+			new Contraction("weren't","were not"),
+			new Contraction("we're","we are"),
+			new Contraction("they're","they are"),
+			new Contraction("you're","you are"),
+		};
+
 		public static readonly Array Subjects = Enum.GetValues(typeof(Subject));
 		public static readonly Array Specificities = Enum.GetValues(typeof(Specificity));
 		public static readonly Array Tenses = Enum.GetValues(typeof(Tense));
 
-		public static readonly Subject[] ThirdPersonSingulars = new Subject[] {
+		public static readonly Subject[] ThirdPersonSingulars = {
 			Subject.ThirdFeminine,Subject.ThirdInanimate,Subject.ThirdMasculine
 		};
 
 
-		public static readonly Tense[] ConditionalTenses = new Tense[]{
+		public static readonly Tense[] ConditionalTenses = {
 			Tense.ConditionalPerfect,
 			Tense.ConditionalPresent,
 			Tense.ContinuousConditionalPerfect,
@@ -209,7 +265,7 @@ namespace non_original_idea {
 			string conjugatedVerbToBe,
 			string conjugatedVerbToBePast,
 
-			bool simplePastUseParticiple
+			bool flatInfinitiveIsRegular
 
 		) {
 			switch(specificity) {
@@ -220,7 +276,7 @@ namespace non_original_idea {
 						case Tense.Present:
 							return $"{subjectText} {conjugatedVerb}";
 						case Tense.Past:
-							if(simplePastUseParticiple) {
+							if(flatInfinitiveIsRegular) {
 								return $"{subjectText} {participle}";
 							} else {
 								return $"{subjectText} {conjugatedVerbPast}";
@@ -306,9 +362,13 @@ namespace non_original_idea {
 					switch(tense) {
 						default:
 						case Tense.Present:
-							return $"{subjectText} {conjugatedDo} not {flatInfinitive}";
+							if(flatInfinitiveIsRegular) {
+								return $"{subjectText} {conjugatedDo} not {flatInfinitive}";
+							} else {
+								return $"{subjectText} {conjugatedVerb} not";
+							}
 						case Tense.Past:
-							if(simplePastUseParticiple) {
+							if(flatInfinitiveIsRegular) {
 								return $"{subjectText} did not {flatInfinitive}";
 							} else {
 								return $"{subjectText} {conjugatedVerbPast} not";
@@ -366,7 +426,7 @@ namespace non_original_idea {
 						case Tense.Plurperfect:
 							return $"had {subjectText} not {participle}";
 						case Tense.FuturePerfect:
-							return $"will {subjectText} have not {participle}";
+							return $"will {subjectText} not have {participle}";
 						case Tense.Future:
 							return $"will {subjectText} not {flatInfinitive}";
 						case Tense.ContinuousPresent:
@@ -433,7 +493,7 @@ namespace non_original_idea {
 				case Subject.ThirdNeutral:
 				case Subject.ThirdPlural:
 					subjectText = subjectText != null ? subjectText : "they";
-					result = GetTensedVerb(tense,specificity,"are","were","been","be","being",subjectText,true,"do","have","is","were",false);
+					result = GetTensedVerb(tense,specificity,"are","were","been","be","being",subjectText,true,"do","have","are","were",false);
 					break;
 			}
 
