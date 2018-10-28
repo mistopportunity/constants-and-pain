@@ -9,60 +9,29 @@ namespace non_original_idea {
 
 	public static class ConstantsAndPain {
 
+		private const string NegativeAbleVerbChain = "would|will|did|does|do|could|had|is|must|was|have|are|were";
+
+		private const string BasicPronounsChain = "they|I|it|you|they|he|she";
+
+		private const string NegativeContractionLookAhead = "(?:(?!'ve|'nt|n't))";
+
 		public static readonly Contraction[] BasicContractions = {
-			//Priority ordered. Put more complex chains at the top.
+			//The top down order is the priority
+			new Contraction("{0}n't",$"({NegativeAbleVerbChain}) not",true),
+			new Contraction("{0}'ve",$"(I|you|we|could|would|should|might|must) have{NegativeContractionLookAhead}",true),
+			new Contraction("{0}n't {1}",$@"({NegativeAbleVerbChain}) (\S*) not",true),
 
-			new Contraction("wouldn't {}",@"(would) (\S*) not",true),
-			new Contraction("won't {}",@"(will) (\S*) not",true),
-			new Contraction("didn't {}",@"(did) (\S*) not",true),
-			new Contraction("doesn't {}",@"(does) (\S*) not",true),
-			new Contraction("don't {}",@"(do) (\S*) not",true),
-			new Contraction("couldn't {}",@"(could) (\S*) not",true),
-			new Contraction("hadn't {}",@"(had) (\S*) not",true),
-			new Contraction("isn't {}",@"(is) (\S*) not",true),
-			new Contraction("mustn't {}",@"(must) (\S*) not",true),
-			new Contraction("wasn't {}",@"(was) (\S*) not",true),
-			new Contraction("haven't {}",@"(have) (\S*) not",true),
-			new Contraction("aren't {}",@"(are) (\S*) not",true),
-			new Contraction("weren't {}",@"(were) (\S*) not",true),
+			new Contraction("{0}'ll",$"({BasicPronounsChain}) will{NegativeContractionLookAhead}",true),
+			new Contraction("won't","willn't"), //Thanks, English
 
-			new Contraction("wouldn't","would not"),
-			new Contraction("won't","will not"),
-			new Contraction("didn't","did not"),
-			new Contraction("doesn't","does not"),
-			new Contraction("don't","do not"),
-			new Contraction("couldn't","could not"),
-			new Contraction("hadn't","had not"),
-			new Contraction("isn't","is not"),
-			new Contraction("mustn't","must not"),
-			new Contraction("wasn't","was not"),
-			new Contraction("haven't","have not"),
+			new Contraction("{0}'d",$"({BasicPronounsChain}) would{NegativeContractionLookAhead}",true),
 
-			new Contraction("they'll","they will"),
-			new Contraction("how'd","how did"),
-			new Contraction("how's","how is"),
-			new Contraction("I'll","I will"),
+			new Contraction("{0}'re",$"(they|we|you) are{NegativeContractionLookAhead}",true),
+			new Contraction("{0}'s",$"(it|she|he|how) is{NegativeContractionLookAhead}",true),
+			new Contraction("{0}'d",$"(why|how) did{NegativeContractionLookAhead}",true),
+
 			new Contraction("I'm","I am"),
-			new Contraction("it'd","it would"),
-			new Contraction("it'll","it will"),
-			new Contraction("it's","it is"),
 			new Contraction("let's","let us"),
-			new Contraction("might've","might have"),
-			new Contraction("must've","must have"),
-			new Contraction("she'd","she had"),
-
-			new Contraction("she'd","she would"),
-			new Contraction("I'd","I would"),
-			new Contraction("he'd","he had"),
-			new Contraction("he'd","he would"),
-			new Contraction("we'd","we would"),
-			new Contraction("you'd","you would"),
-
-			new Contraction("we've","we have"),
-			new Contraction("weren't","were not"),
-			new Contraction("we're","we are"),
-			new Contraction("they're","they are"),
-			new Contraction("you're","you are"),
 		};
 
 		public static readonly Array Subjects = Enum.GetValues(typeof(Subject));
