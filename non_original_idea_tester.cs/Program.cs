@@ -11,6 +11,8 @@ namespace non_original_idea_tester.cs {
 		static void Main() {
 
 
+			LaughableAutoConjugator();
+
 			BruteForceTest();
 
 
@@ -59,7 +61,7 @@ namespace non_original_idea_tester.cs {
 
 						var bob = new SentenceBuilder();
 
-						bob.Add(GetTensedVerb(subject,tense,specificity,hate));
+						bob.Add(GetTensedVerb(subject,tense,specificity,hate,null,"happily"));
 
 						bob.Add("zebras");
 
@@ -70,7 +72,7 @@ namespace non_original_idea_tester.cs {
 						bob.Add("on my cat");
 
 
-						Console.WriteLine(bob.Build(GetPunctuation(specificity)));
+						Console.WriteLine(bob.Build(GetPunctuation(specificity),contractions: BasicContractions));
 
 						Console.WriteLine();
 
@@ -130,10 +132,14 @@ namespace non_original_idea_tester.cs {
 
 		static void BruteForceTest() {
 
+			var subject = Subject.FirstSingular;
 
-			foreach(Subject subject in Subjects) {
+			var specificity = Specificity.NegativeQuestion;
 
-				foreach(Specificity specificity in Specificities) {
+
+			//foreach(Subject subject in Subjects) {
+
+			//	foreach(Specificity specificity in Specificities) {
 
 					foreach(Tense tense in Tenses) {
 
@@ -142,10 +148,12 @@ namespace non_original_idea_tester.cs {
 						bob.Add(GetVerbToBe(
 							subject,
 							tense,
-							specificity
+							specificity,
+							subjectText: null,
+							adverb: "happily"
 						));
 
-						bob.Add("confusing");
+						bob.Add("dogs");
 
 						char punctuation = GetPunctuation(specificity);
 
@@ -158,8 +166,8 @@ namespace non_original_idea_tester.cs {
 						Console.WriteLine(sentence2);
 						Console.WriteLine();
 					}
-				}
-			}
+			//	}
+			//}
 		}
 
 		static void BasicConditionalSentenceTest() {

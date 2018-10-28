@@ -50,6 +50,18 @@ namespace non_original_idea {
 			Tense.ContinuousConditionalPresent
 		};
 
+		public static readonly Tense[] NonContinuousTenses = {
+			Tense.ConditionalPerfect,
+			Tense.ConditionalPresent,
+			Tense.Future,
+			Tense.FuturePerfect,
+			Tense.Imperfect,
+			Tense.Past,
+			Tense.Perfect,
+			Tense.Plurperfect,
+			Tense.Present
+		};
+
 		public static char GetPunctuation(Specificity specificity) {
 			switch(specificity) {
 				default:
@@ -190,7 +202,8 @@ namespace non_original_idea {
 			Tense tense,
 			Specificity specificity,
 			Verb verb,
-			string subjectText = null
+			string subjectText = null,
+			string adverb = null
 		) {
 			if(subjectText == null) {
 				subjectText = GetDefaultSubjectText(subject);
@@ -209,7 +222,8 @@ namespace non_original_idea {
 				GetConjugatedHave(subject),
 				GetVerbToBeFlat(subject),
 				GetVerbToBeFlatPast(subject),
-				verb.usePastParticiple
+				verb.usePastParticiple,
+				adverb
 			));
 		}
 
@@ -234,9 +248,17 @@ namespace non_original_idea {
 			string conjugatedVerbToBe,
 			string conjugatedVerbToBePast,
 
-			bool flatInfinitiveIsRegular
+			bool flatInfinitiveIsRegular,
+
+			string adverb
 
 		) {
+			string sfa = string.Empty;//Space followed adverb
+			string sta = string.Empty;//Space trailed adverb
+			if(adverb != null) {
+				sfa = $" {adverb}";
+				sta = $"{adverb} ";
+			}
 			switch(specificity) {
 				default:
 				case Specificity.PositiveStatement:
@@ -251,173 +273,173 @@ namespace non_original_idea {
 								return $"{subjectText} {conjugatedVerbPast}";
 							}
 						case Tense.Imperfect:
-							return $"{subjectText} used to {flatInfinitive}";
+							return $"{subjectText} used to {sta}{flatInfinitive}";
 						case Tense.Perfect:
-							return $"{subjectText} {conjugatedHave} {participle}";
+							return $"{subjectText} {conjugatedHave} {sta}{participle}";
 						case Tense.Plurperfect:
-							return $"{subjectText} had {participle}";
+							return $"{subjectText} had {sta}{participle}";
 						case Tense.FuturePerfect:
-							return $"{subjectText} will have {participle}";
+							return $"{subjectText} will have {sta}{participle}";
 						case Tense.Future:
-							return $"{subjectText} will {flatInfinitive}";
+							return $"{subjectText} will {sta}{flatInfinitive}";
 						case Tense.ContinuousPresent:
-							return $"{subjectText} {conjugatedVerbToBe} {gerund}";
+							return $"{subjectText} {conjugatedVerbToBe} {sta}{gerund}";
 						case Tense.ContinuousPluperfect:
-							return $"{subjectText} had been {gerund}";
+							return $"{subjectText} had been {sta}{gerund}";
 						case Tense.ContinuousPerfect:
-							return $"{subjectText} {conjugatedHave} been {gerund}";
+							return $"{subjectText} {conjugatedHave} been {sta}{gerund}";
 						case Tense.ContinuousPast:
-							return $"{subjectText} {conjugatedVerbToBePast} {gerund}";
+							return $"{subjectText} {conjugatedVerbToBePast} {sta}{gerund}";
 						case Tense.ContinuousFuturePerfect:
-							return $"{subjectText} will have been {gerund}";
+							return $"{subjectText} will have been {sta}{gerund}";
 						case Tense.ContinuousFuture:
-							return $"{subjectText} will be {gerund}";
+							return $"{subjectText} will be {sta}{gerund}";
 						case Tense.ContinuousConditionalPresent:
-							return $"{subjectText} would be {gerund}";
+							return $"{subjectText} would be {sta}{gerund}";
 						case Tense.ContinuousConditionalPerfect:
-							return $"{subjectText} would have been {gerund}";
+							return $"{subjectText} would have been {sta}{gerund}";
 						case Tense.ConditionalPresent:
-							return $"{subjectText} would {flatInfinitive}";
+							return $"{subjectText} would {sta}{flatInfinitive}";
 						case Tense.ConditionalPerfect:
-							return $"{subjectText} would have {participle}";
+							return $"{subjectText} would have {sta}{participle}";
 					}
 				case Specificity.PositiveQuestion:
 					switch(tense) {
 						default:
 						case Tense.Present:
 							if(questionIncludesSVInversion) {
-								return $"{conjugatedVerb} {subjectText}";
+								return $"{conjugatedVerb} {subjectText}{sfa}";
 							} else {
-								return $"{conjugatedDo} {subjectText} {flatInfinitive}";
+								return $"{conjugatedDo} {subjectText} {sta}{flatInfinitive}";
 							}
 						case Tense.Past:
 							if(questionIncludesSVInversion) {
-								return $"{conjugatedVerbPast} {subjectText}";
+								return $"{conjugatedVerbPast} {subjectText}{sfa}";
 							} else {
-								return $"did {subjectText} {flatInfinitive}";
+								return $"did {subjectText} {sta}{flatInfinitive}";
 							}
 						case Tense.Imperfect:
-							return $"did {subjectText} used to {flatInfinitive}";
+							return $"did {subjectText} used to {sta}{flatInfinitive}";
 						case Tense.Perfect:
-							return $"{conjugatedHave} {subjectText} {participle}";
+							return $"{conjugatedHave} {subjectText} {sta}{participle}";
 						case Tense.Plurperfect:
-							return $"had {subjectText} {participle}";
+							return $"had {subjectText} {sta}{participle}";
 						case Tense.FuturePerfect:
-							return $"will {subjectText} have {participle}";
+							return $"will {subjectText} have {sta}{participle}";
 						case Tense.Future:
-							return $"will {subjectText} {flatInfinitive}";
+							return $"will {subjectText} {sta}{flatInfinitive}";
 						case Tense.ContinuousPresent:
-							return $"{conjugatedVerbToBe} {subjectText} {gerund}";
+							return $"{conjugatedVerbToBe} {subjectText} {sta}{gerund}";
 						case Tense.ContinuousPluperfect:
-							return $"had {subjectText} been {gerund}";
+							return $"had {subjectText} been {sta}{gerund}";
 						case Tense.ContinuousPerfect:
-							return $"{conjugatedHave} {subjectText} been {gerund}";
+							return $"{conjugatedHave} {subjectText} been {sta}{gerund}";
 						case Tense.ContinuousPast:
-							return $"{conjugatedVerbToBePast} {subjectText} {gerund}";
+							return $"{conjugatedVerbToBePast} {subjectText} {sta}{gerund}";
 						case Tense.ContinuousFuturePerfect:
-							return $"will {subjectText} have been {gerund}";
+							return $"will {subjectText} have been {sta}{gerund}";
 						case Tense.ContinuousFuture:
-							return $"will {subjectText} be {gerund}";
+							return $"will {subjectText} be {sta}{gerund}";
 						case Tense.ContinuousConditionalPresent:
-							return $"would {subjectText} be {gerund}";
+							return $"would {subjectText} be {sta}{gerund}";
 						case Tense.ContinuousConditionalPerfect:
-							return $"would {subjectText} have been {gerund}";
+							return $"would {subjectText} have been {sta}{gerund}";
 						case Tense.ConditionalPresent:
-							return $"would {subjectText} {flatInfinitive}";
+							return $"would {subjectText} {sta}{flatInfinitive}";
 						case Tense.ConditionalPerfect:
-							return $"would {subjectText} have {participle}";
+							return $"would {subjectText} have {sta}{participle}";
 					}
 				case Specificity.NegativeStatement:
 					switch(tense) {
 						default:
 						case Tense.Present:
 							if(flatInfinitiveIsRegular) {
-								return $"{subjectText} {conjugatedDo} not {flatInfinitive}";
+								return $"{subjectText} {conjugatedDo} not {sta}{flatInfinitive}";
 							} else {
-								return $"{subjectText} {conjugatedVerb} not";
+								return $"{subjectText} {conjugatedVerb} not{sfa}";
 							}
 						case Tense.Past:
 							if(flatInfinitiveIsRegular) {
-								return $"{subjectText} did not {flatInfinitive}";
+								return $"{subjectText} did not {sta}{flatInfinitive}";
 							} else {
-								return $"{subjectText} {conjugatedVerbPast} not";
+								return $"{subjectText} {conjugatedVerbPast} not{sfa}";
 							}
 						case Tense.Imperfect:
-							return $"{subjectText} did not used to {flatInfinitive}";
+							return $"{subjectText} did not used to {sta}{flatInfinitive}";
 						case Tense.Perfect:
-							return $"{subjectText} {conjugatedHave} not {participle}";
+							return $"{subjectText} {conjugatedHave} not {sta}{participle}";
 						case Tense.Plurperfect:
-							return $"{subjectText} had not {participle}";
+							return $"{subjectText} had not {sta}{participle}";
 						case Tense.FuturePerfect:
-							return $"{subjectText} will not have {participle}";
+							return $"{subjectText} will not have {sta}{participle}";
 						case Tense.Future:
-							return $"{subjectText} will not {flatInfinitive}";
+							return $"{subjectText} will not {sta}{flatInfinitive}";
 						case Tense.ContinuousPresent:
-							return $"{subjectText} {conjugatedVerbToBe} not {gerund}";
+							return $"{subjectText} {conjugatedVerbToBe} not {sta}{gerund}";
 						case Tense.ContinuousPluperfect:
-							return $"{subjectText} had not been {gerund}";
+							return $"{subjectText} had not been {sta}{gerund}";
 						case Tense.ContinuousPerfect:
-							return $"{subjectText} {conjugatedHave} not been {gerund}";
+							return $"{subjectText} {conjugatedHave} not been {sta}{gerund}";
 						case Tense.ContinuousPast:
-							return $"{subjectText} {conjugatedVerbToBePast} not {gerund}";
+							return $"{subjectText} {conjugatedVerbToBePast} not {sta}{gerund}";
 						case Tense.ContinuousFuturePerfect:
-							return $"{subjectText} will not have been {gerund}";
+							return $"{subjectText} will not have been {sta}{gerund}";
 						case Tense.ContinuousFuture:
-							return $"{subjectText} will not be {gerund}";
+							return $"{subjectText} will not be {sta}{gerund}";
 						case Tense.ContinuousConditionalPresent:
-							return $"{subjectText} would not be {gerund}";
+							return $"{subjectText} would not be {sta}{gerund}";
 						case Tense.ContinuousConditionalPerfect:
-							return $"{subjectText} would not have been {gerund}";
+							return $"{subjectText} would not have been {sta}{gerund}";
 						case Tense.ConditionalPresent:
-							return $"{subjectText} would not {flatInfinitive}";
+							return $"{subjectText} would not {sta}{flatInfinitive}";
 						case Tense.ConditionalPerfect:
-							return $"{subjectText} would not have {participle}";
+							return $"{subjectText} would not have {sta}{participle}";
 					}
 				case Specificity.NegativeQuestion:
 					switch(tense) {
 						default:
 						case Tense.Present:
 							if(questionIncludesSVInversion) {
-								return $"{conjugatedVerb} {subjectText} not";
+								return $"{conjugatedVerb} {subjectText} not{sfa}";
 							} else {
-								return $"{conjugatedDo} {subjectText} not {flatInfinitive}";
+								return $"{conjugatedDo} {subjectText} not {sta}{flatInfinitive}";
 							}
 						case Tense.Past:
 							if(questionIncludesSVInversion) {
-								return $"{conjugatedVerbPast} {subjectText} not";
+								return $"{conjugatedVerbPast} {subjectText} not{sfa}";
 							} else {
-								return $"did {subjectText} not {flatInfinitive}";
+								return $"did {subjectText} not {sta}{flatInfinitive}";
 							}
 						case Tense.Imperfect:
-							return $"did {subjectText} not used to {flatInfinitive}";
+							return $"did {subjectText} not used to {sta}{flatInfinitive}";
 						case Tense.Perfect:
-							return $"{conjugatedHave} {subjectText} not {participle}";
+							return $"{conjugatedHave} {subjectText} not {sta}{participle}";
 						case Tense.Plurperfect:
-							return $"had {subjectText} not {participle}";
+							return $"had {subjectText} not {sta}{participle}";
 						case Tense.FuturePerfect:
-							return $"will {subjectText} not have {participle}";
+							return $"will {subjectText} not have {sta}{participle}";
 						case Tense.Future:
-							return $"will {subjectText} not {flatInfinitive}";
+							return $"will {subjectText} not {sta}{flatInfinitive}";
 						case Tense.ContinuousPresent:
-							return $"{conjugatedVerbToBe} {subjectText} not {gerund}";
+							return $"{conjugatedVerbToBe} {subjectText} not {sta}{gerund}";
 						case Tense.ContinuousPluperfect:
-							return $"had {subjectText} not been {gerund}";
+							return $"had {subjectText} not been {sta}{gerund}";
 						case Tense.ContinuousPerfect:
-							return $"{conjugatedHave} {subjectText} not been {gerund}";
+							return $"{conjugatedHave} {subjectText} not been {sta}{gerund}";
 						case Tense.ContinuousPast:
-							return $"{conjugatedVerbToBePast} {subjectText} not {gerund}";
+							return $"{conjugatedVerbToBePast} {subjectText} not {sta}{gerund}";
 						case Tense.ContinuousFuturePerfect:
-							return $"will {subjectText} not have been {gerund}";
+							return $"will {subjectText} not have been {sta}{gerund}";
 						case Tense.ContinuousFuture:
-							return $"will {subjectText} not be {gerund}";
+							return $"will {subjectText} not be {sta}{gerund}";
 						case Tense.ContinuousConditionalPresent:
-							return $"would {subjectText} not be {gerund}";
+							return $"would {subjectText} not be {sta}{gerund}";
 						case Tense.ContinuousConditionalPerfect:
-							return $"would {subjectText} not have been {gerund}";
+							return $"would {subjectText} not have been {sta}{gerund}";
 						case Tense.ConditionalPresent:
-							return $"would {subjectText} {flatInfinitive}";
+							return $"would {subjectText} {sta}{flatInfinitive}";
 						case Tense.ConditionalPerfect:
-							return $"would {subjectText} have {participle}";
+							return $"would {subjectText} have {sta}{participle}";
 					}
 			}
 		}
@@ -427,22 +449,26 @@ namespace non_original_idea {
 			Tense tense = Tense.Present,
 			Specificity specificity = Specificity.PositiveStatement,
 			string subjectText = null,
+			string adverb = null,
 			Verb gerundVerb = null
 		) {
+
+			var adverbArgument = gerundVerb != null ? null : adverb;
+
 			string result = null;
 			switch(subject) {
 				case Subject.FirstSingular:
 					subjectText = subjectText != null ? subjectText : "I";
-					result = GetTensedVerb(tense,specificity,"am","was","been","be","being",subjectText,true,"do","have","am","was",false);
+					result = GetTensedVerb(tense,specificity,"am","was","been","be","being",subjectText,true,"do","have","am","was",false,adverbArgument);
 					break;
 				case Subject.FirstPlural:
 					subjectText = subjectText != null ? subjectText : "we";
-					result = GetTensedVerb(tense,specificity,"are","were","been","be","being",subjectText,true,"do","have","are","were",false);
+					result = GetTensedVerb(tense,specificity,"are","were","been","be","being",subjectText,true,"do","have","are","were",false,adverbArgument);
 					break;
 				case Subject.SecondSingular:
 				case Subject.SecondPlural:
 					subjectText = subjectText != null ? subjectText : "you";
-					result = GetTensedVerb(tense,specificity,"are","were","been","be","being",subjectText,true,"do","have","are","were",false);
+					result = GetTensedVerb(tense,specificity,"are","were","been","be","being",subjectText,true,"do","have","are","were",false,adverbArgument);
 					break;
 
 				case Subject.ThirdMasculine:
@@ -456,18 +482,18 @@ namespace non_original_idea {
 					goto default;
 
 				default:
-					result = GetTensedVerb(tense,specificity,"is","was","been","be","being",subjectText,true,"do","has","is","was",false);
+					result = GetTensedVerb(tense,specificity,"is","was","been","be","being",subjectText,true,"do","has","is","was",false,adverbArgument);
 					break;
 
 				case Subject.ThirdNeutral:
 				case Subject.ThirdPlural:
 					subjectText = subjectText != null ? subjectText : "they";
-					result = GetTensedVerb(tense,specificity,"are","were","been","be","being",subjectText,true,"do","have","are","were",false);
+					result = GetTensedVerb(tense,specificity,"are","were","been","be","being",subjectText,true,"do","have","are","were",false,adverbArgument);
 					break;
 			}
 
 			if(gerundVerb != null) {
-				result += $" {gerundVerb.gerund}";
+				result += $" {(adverb != null ? $"{adverb} " : "")}{gerundVerb.gerund}";
 			}
 
 			FragmentFlags flags = FragmentFlags.None;
