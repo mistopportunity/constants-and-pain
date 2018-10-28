@@ -17,21 +17,21 @@ namespace non_original_idea {
 
 		public static readonly Contraction[] BasicContractions = {
 			//The top down order is the priority
-			new Contraction("{0}n't",$"({NegativeAbleVerbChain}) not",true),
-			new Contraction("{0}'ve",$"(I|you|we|could|would|should|might|must) have{NegativeContractionLookAhead}",true),
-			new Contraction("{0}n't {1}",$@"({NegativeAbleVerbChain}) (\S*) not",true),
+			new Contraction("{0}n't",$"({NegativeAbleVerbChain}) not"),
+			new Contraction("{0}'ve",$"(I|you|we|could|would|should|might|must) have{NegativeContractionLookAhead}"),
+			new Contraction("{0}n't {1}",$@"({NegativeAbleVerbChain}) (\S*) not"),
 
-			new Contraction("{0}'ll",$"({BasicPronounsChain}) will{NegativeContractionLookAhead}",true),
-			new Contraction("won't","willn't"), //Thanks, English
+			new Contraction("{0}'ll",$"({BasicPronounsChain}) will{NegativeContractionLookAhead}"),
+			new Contraction("won't","willn't",isFormatter: false), //Thanks, English
 
-			new Contraction("{0}'d",$"({BasicPronounsChain}) would{NegativeContractionLookAhead}",true),
+			new Contraction("{0}'d",$"({BasicPronounsChain}) would{NegativeContractionLookAhead}"),
 
-			new Contraction("{0}'re",$"(they|we|you) are{NegativeContractionLookAhead}",true),
-			new Contraction("{0}'s",$"(it|she|he|how) is{NegativeContractionLookAhead}",true),
-			new Contraction("{0}'d",$"(why|how) did{NegativeContractionLookAhead}",true),
+			new Contraction("{0}'re",$"(they|we|you) are{NegativeContractionLookAhead}"),
+			new Contraction("{0}'s",$"(it|she|he|how) is{NegativeContractionLookAhead}"),
+			new Contraction("{0}'d",$"(why|how) did{NegativeContractionLookAhead}"),
 
-			new Contraction("I'm","I am"),
-			new Contraction("let's","let us"),
+			new Contraction("I'm","I am",isFormatter: false),
+			new Contraction("let's","let us",isFormatter: false),
 		};
 
 		public static readonly Array Subjects = Enum.GetValues(typeof(Subject));

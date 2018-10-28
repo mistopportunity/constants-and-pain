@@ -4,7 +4,7 @@ using System.Text;
 
 namespace non_original_idea {
 	public sealed class Contraction {
-		public Contraction(string shorthand,string longway,bool isFormatter = false) {
+		public Contraction(string shorthand,string longway,bool isFormatter = true) {
 			if(isFormatter) {
 				this.shorthand = shorthand;
 				this.longway = longway;
