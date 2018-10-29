@@ -55,11 +55,12 @@ namespace non_original_idea {
 			Tense.ConditionalPresent,
 			Tense.Future,
 			Tense.FuturePerfect,
+			Tense.FutureInformal,
 			Tense.Imperfect,
 			Tense.Past,
 			Tense.Perfect,
 			Tense.Plurperfect,
-			Tense.Present
+			Tense.Present,
 		};
 
 		public static char GetPunctuation(Specificity specificity) {
@@ -89,7 +90,7 @@ namespace non_original_idea {
 		}
 
 		public static Tense GetRandomNonConditionalTense(Random random) {
-			switch(random.Next(0,12)) {
+			switch(random.Next(0,32)) {
 				case 0:
 					return Tense.ContinuousFuture;
 				case 1:
@@ -115,6 +116,8 @@ namespace non_original_idea {
 				default:
 				case 11:
 					return Tense.Present;
+				case 12:
+					return Tense.FutureInformal;
 			}
 		}
 
@@ -282,6 +285,8 @@ namespace non_original_idea {
 							return $"{subjectText} will have {sta}{participle}";
 						case Tense.Future:
 							return $"{subjectText} will {sta}{flatInfinitive}";
+						case Tense.FutureInformal:
+							return $"{subjectText} {conjugatedVerbToBe}{sfa} going to {flatInfinitive}";
 						case Tense.ContinuousPresent:
 							return $"{subjectText} {conjugatedVerbToBe} {sta}{gerund}";
 						case Tense.ContinuousPluperfect:
@@ -328,6 +333,8 @@ namespace non_original_idea {
 							return $"will {subjectText} have {sta}{participle}";
 						case Tense.Future:
 							return $"will {subjectText} {sta}{flatInfinitive}";
+						case Tense.FutureInformal:
+							return $"{conjugatedVerbToBe} {subjectText}{sfa} going to {flatInfinitive}";
 						case Tense.ContinuousPresent:
 							return $"{conjugatedVerbToBe} {subjectText} {sta}{gerund}";
 						case Tense.ContinuousPluperfect:
@@ -374,6 +381,8 @@ namespace non_original_idea {
 							return $"{subjectText} will not have {sta}{participle}";
 						case Tense.Future:
 							return $"{subjectText} will not {sta}{flatInfinitive}";
+						case Tense.FutureInformal:
+							return $"{subjectText} will not be{sfa} going to {flatInfinitive}";
 						case Tense.ContinuousPresent:
 							return $"{subjectText} {conjugatedVerbToBe} not {sta}{gerund}";
 						case Tense.ContinuousPluperfect:
@@ -420,6 +429,8 @@ namespace non_original_idea {
 							return $"will {subjectText} not have {sta}{participle}";
 						case Tense.Future:
 							return $"will {subjectText} not {sta}{flatInfinitive}";
+						case Tense.FutureInformal:
+							return $"will {subjectText} not be{sfa} going to {flatInfinitive}";
 						case Tense.ContinuousPresent:
 							return $"{conjugatedVerbToBe} {subjectText} not {sta}{gerund}";
 						case Tense.ContinuousPluperfect:
@@ -450,7 +461,7 @@ namespace non_original_idea {
 			Specificity specificity = Specificity.PositiveStatement,
 			string subjectText = null,
 			string adverb = null,
-			Verb gerundVerb = null
+			string gerundVerb = null
 		) {
 
 			var adverbArgument = gerundVerb != null ? null : adverb;
@@ -493,7 +504,7 @@ namespace non_original_idea {
 			}
 
 			if(gerundVerb != null) {
-				result += $" {(adverb != null ? $"{adverb} " : "")}{gerundVerb.gerund}";
+				result += $" {(adverb != null ? $"{adverb} " : "")}{gerundVerb}";
 			}
 
 			FragmentFlags flags = FragmentFlags.None;

@@ -25,7 +25,8 @@ namespace non_original_idea {
 		ContinuousConditionalPresent,
 		ContinuousConditionalPerfect,
 
-		Imperfect
+		Imperfect,
+		FutureInformal,
 
 	}
 }
