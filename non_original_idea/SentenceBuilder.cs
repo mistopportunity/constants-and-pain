@@ -4,29 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 namespace non_original_idea {
-	public sealed class SentenceBuilder {
-
-		public readonly List<SentenceFragment> Fragments;
-
-		public SentenceBuilder() {
-			Fragments = new List<SentenceFragment>();
-		}
-
-		public void Add(SentenceFragment sentenceFragment) {
-			Fragments.Add(sentenceFragment);
-		}
-		public void Add(string sentenceFragment) {
-			Fragments.Add(new SentenceFragment(sentenceFragment));
-		}
-
-		public string Build (
-			char punctuation = '.',
-			bool startCapital = true,
-			IEnumerable<Contraction> contractions = null
-		) {
-			return Build(Fragments,startCapital,punctuation,contractions);
-		}
-
+	public static class SentenceBuilder {
 
 		internal static string ContractContractables (
 			string sentence,
@@ -86,17 +64,19 @@ namespace non_original_idea {
 
 
 		}
+		public static string Build(this IEnumerable<string> sentenceFragments,char punctuation) {
+			return Build(sentenceFragments,punctuation,true,ConstantsAndPain.BasicContractions);
+		}
 
-		internal static string Build(
-			IEnumerable<SentenceFragment> sentenceFragments,
-			bool startCapital,
+		public static string Build(
+			this IEnumerable<string> sentenceFragments,
 			char punctuation,
+			bool startCapital,
 			IEnumerable<Contraction> contractions
 		) {
 			StringBuilder stringBuilder = new StringBuilder();
 			foreach(var sentenceFragment in sentenceFragments) {
-				var fragmentText = sentenceFragment.Text;
-				stringBuilder.Append(fragmentText);
+				stringBuilder.Append(sentenceFragment);
 				stringBuilder.Append(' ');
 			}
 			string sentence = stringBuilder.ToString();

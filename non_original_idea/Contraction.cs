@@ -10,7 +10,7 @@ namespace non_original_idea {
 				this.longway = longway;
 				this.isFormatter = true;
 			} else {
-				//We add spaces so that words can't be double contracted nor can sentences end in contractions. It's just easier this way.
+//We add spaces so that words can't be double contracted nor can sentences end in contractions. It's just easier this way.
 				this.shorthand = shorthand + " ";
 				this.longway = longway + " ";
 				this.isFormatter = false;

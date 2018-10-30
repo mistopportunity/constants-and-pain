@@ -8,10 +8,6 @@ namespace non_original_idea_tester.cs {
 
 	class Program {
 
-		static readonly Array Subjects = Enum.GetValues(typeof(Subject));
-		static readonly Array Specificities = Enum.GetValues(typeof(Specificity));
-		static readonly Array Tenses = Enum.GetValues(typeof(Tense));
-
 		static void Main() {
 
 
@@ -35,7 +31,7 @@ namespace non_original_idea_tester.cs {
 
 			foreach(var test in tests) {
 
-				var bob = new SentenceBuilder();
+				var bob = new List<string>();
 
 				bob.Add(GetVerbToBe(test.Item1,test.Item2,test.Item3));
 
@@ -49,10 +45,9 @@ namespace non_original_idea_tester.cs {
 
 		static void LaughableAutoConjugator() {
 
-			var create = VerbGenerator.ConjugateUnsafelyAndRegularly("create");
-			var shit = VerbGenerator.ConjugateUnsafelyAndRegularly("shit");
-			var hate = VerbGenerator.ConjugateUnsafelyAndRegularly("hate");
-
+			var create = Verb.GenerateUnsafelyAndRegularly("create");
+			var shit = Verb.GenerateUnsafelyAndRegularly("shit");
+			var hate = Verb.GenerateUnsafelyAndRegularly("hate");
 
 			foreach(Subject subject in Subjects) {
 
@@ -63,7 +58,7 @@ namespace non_original_idea_tester.cs {
 
 						Console.WriteLine(string.Join(',',subject,tense,specificity));
 
-						var bob = new SentenceBuilder();
+						var bob = new List<string>();
 
 						bob.Add(GetTensedVerb(subject,tense,specificity,hate,null,"happily"));
 
@@ -75,8 +70,14 @@ namespace non_original_idea_tester.cs {
 
 						bob.Add("on my cat");
 
+						
 
-						Console.WriteLine(bob.Build(GetPunctuation(specificity),contractions: BasicContractions));
+
+						Console.WriteLine(bob.Build(
+							startCapital: true,
+							punctuation: GetPunctuation(specificity),
+							contractions: BasicContractions)
+						);
 
 						Console.WriteLine();
 
@@ -122,7 +123,7 @@ namespace non_original_idea_tester.cs {
 
 						Console.WriteLine(string.Join(',',tense,specificity,subject));
 
-						Console.WriteLine(tensified.Text);
+						Console.WriteLine(tensified);
 
 						Console.WriteLine();
 
@@ -130,7 +131,6 @@ namespace non_original_idea_tester.cs {
 
 				}
 			}
-
 
 		}
 
@@ -147,7 +147,7 @@ namespace non_original_idea_tester.cs {
 
 					foreach(Tense tense in Tenses) {
 
-						var bob = new SentenceBuilder();
+						var bob = new List<string>();
 
 						bob.Add(GetVerbToBe(
 							subject,
@@ -176,17 +176,17 @@ namespace non_original_idea_tester.cs {
 
 		static void BasicConditionalSentenceTest() {
 
-			var fragments = new SentenceBuilder();
+			var fragments = new List<string>();
 
-			fragments.Add(new SentenceFragment("if"));
+			fragments.Add("if");
 
 			fragments.Add(GetVerbToBe(
 				Subject.FirstSingular,
-				Tense.ContinuousPast,
+				Tense.ProgressivePast,
 				Specificity.NegativeStatement
 			));
 
-			fragments.Add(new SentenceFragment("so mean,"));
+			fragments.Add("so mean,");
 
 			fragments.Add(GetVerbToBe(
 				Subject.FirstSingular,
@@ -194,7 +194,7 @@ namespace non_original_idea_tester.cs {
 				Specificity.PositiveQuestion
 			));
 
-			fragments.Add(new SentenceFragment("nicer"));
+			fragments.Add("nicer");
 
 			var sentence = fragments.Build('?');
 
@@ -202,64 +202,5 @@ namespace non_original_idea_tester.cs {
 
 		}
 
-		static void ConditionalBlendTest() {
-
-			var random = new Random();
-
-			foreach(Specificity specificity in Specificities) {
-
-				foreach(Tense tense in ConditionalTenses) {
-
-					var fragments = new SentenceBuilder();
-
-					fragments.Add(GetVerbToBe(
-						Subject.ThirdFeminine,
-						tense,
-						specificity,
-						"Kyndrajauna"
-					));
-
-					fragments.Add(new SentenceFragment("such a bitch"));
-					fragments.Add(new SentenceFragment("if"));
-
-					Tense ifClauseTense = tense;
-					switch(tense) {
-						case Tense.ConditionalPerfect:
-							ifClauseTense = Tense.ConditionalPerfect;
-							break;
-						default:
-						case Tense.ConditionalPresent:
-							ifClauseTense = Tense.Plurperfect;
-							break;
-						case Tense.ContinuousConditionalPresent:
-							ifClauseTense = Tense.Past;
-							break;
-						case Tense.ContinuousConditionalPerfect:
-							ifClauseTense = Tense.Past;
-							break;
-
-					}
-
-					fragments.Add(GetVerbToBe(
-						Subject.ThirdMasculine,
-						ifClauseTense,
-						Specificity.NegativeStatement,
-						"Sam"
-					));
-
-					fragments.Add(new SentenceFragment("so gay"));
-
-
-					char punctuation = GetPunctuation(specificity);
-					var sentence = fragments.Build(punctuation);
-
-					Console.WriteLine(sentence);
-
-
-				}
-
-			}
-
-		}
 	}
 }

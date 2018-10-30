@@ -9,6 +9,10 @@ namespace non_original_idea {
 
 	public static class ConstantsAndPain {
 
+		public static readonly Array Subjects = Enum.GetValues(typeof(Subject));
+		public static readonly Array Specificities = Enum.GetValues(typeof(Specificity));
+		public static readonly Array Tenses = Enum.GetValues(typeof(Tense));
+
 		private const string NegativeAbleVerbChain = "would|will|did|does|do|could|had|is|must|was|have|are|were";
 
 		private const string BasicPronounsChain = "they|I|it|you|they|he|she";
@@ -132,7 +136,7 @@ namespace non_original_idea {
 			}
 		}
 
-		public static SentenceFragment GetTensedVerb (
+		public static string GetTensedVerb (
 			Subject subject,
 			Tense tense,
 			Specificity specificity,
@@ -143,7 +147,7 @@ namespace non_original_idea {
 			if(subjectText == null) {
 				subjectText = GetDefaultSubjectText(subject);
 			}
-			return new SentenceFragment(GetTensedVerb(
+			return GetTensedVerb(
 				tense,
 				specificity,
 				verb.conjugations[subject],
@@ -159,7 +163,7 @@ namespace non_original_idea {
 				GetVerbToBeFlatPast(subject),
 				verb.usePastParticiple,
 				adverb
-			));
+			);
 		}
 
 		internal static string GetTensedVerb (
@@ -395,7 +399,7 @@ namespace non_original_idea {
 			}
 		}
 
-		public static SentenceFragment GetVerbToBe (
+		public static string GetVerbToBe (
 			Subject subject,
 			Tense tense = Tense.Present,
 			Specificity specificity = Specificity.PositiveStatement,
@@ -447,28 +451,8 @@ namespace non_original_idea {
 				result += $" {(adverb != null ? $"{adverb} " : "")}{gerundVerb}";
 			}
 
-			FragmentFlags flags = FragmentFlags.None;
-			if(tense.IsConditionalTense()) {
-				flags = flags | FragmentFlags.Conditional;
-			}
-			if(tense.IsProgressiveTense()) {
-				flags = flags | FragmentFlags.Progressive;
-			}
-			return new SentenceFragment(result,flags);
+			return result;
 		}
-		internal static bool IsConditionalTense(this Tense tense) {
-			switch(tense) {
-				case Tense.ConditionalPresent:
-				case Tense.ConditionalPerfect:
-				case Tense.ProgressiveConditionalPresent:
-				case Tense.ProgressiveConditionalPerfect:
-					return true;
-				default:
-					return false;
-			}
-		}
-		internal static bool IsProgressiveTense(this Tense tense) {
-			return tense.ToString().StartsWith("Progressive");
-		}
+
 	}
 }
