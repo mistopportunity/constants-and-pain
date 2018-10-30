@@ -223,7 +223,7 @@ namespace non_original_idea {
 							return $"{subjectText} did{not} used to {sta}{flatInfinitive}";
 						case Tense.Perfect:
 							return $"{subjectText} {conjugatedHave}{not} {sta}{participle}";
-						case Tense.Plurperfect:
+						case Tense.Pluperfect:
 							return $"{subjectText} had{not} {sta}{participle}";
 						case Tense.FuturePerfect:
 							return $"{subjectText} will{not} have {sta}{participle}";
@@ -319,7 +319,7 @@ namespace non_original_idea {
 							return $"did {subjectText}{not} used to {sta}{flatInfinitive}";
 						case Tense.Perfect:
 							return $"{conjugatedHave} {subjectText}{not} {sta}{participle}";
-						case Tense.Plurperfect:
+						case Tense.Pluperfect:
 							return $"had {subjectText}{not} {sta}{participle}";
 						case Tense.FuturePerfect:
 							return $"will {subjectText}{not} have {sta}{participle}";

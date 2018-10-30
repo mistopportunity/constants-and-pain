@@ -9,7 +9,7 @@ namespace non_original_idea {
 		Present,//I run
 		Past,//I ran
 		Future,//I will run
-		Plurperfect,//I had ran
+		Pluperfect,//I had ran
 		Perfect,//I have ran
 		FuturePerfect,//I will have ran
 
