@@ -8,6 +8,10 @@ namespace non_original_idea_tester.cs {
 
 	class Program {
 
+		static readonly Array Subjects = Enum.GetValues(typeof(Subject));
+		static readonly Array Specificities = Enum.GetValues(typeof(Specificity));
+		static readonly Array Tenses = Enum.GetValues(typeof(Tense));
+
 		static void Main() {
 
 

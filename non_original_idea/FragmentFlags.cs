@@ -8,6 +8,6 @@ namespace non_original_idea {
 	public enum FragmentFlags {
 		None = 0,
 		Conditional = 1,
-		Continuous = 2,
+		Progressive = 2,
 	}
 }

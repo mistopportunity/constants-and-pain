@@ -13,7 +13,7 @@ namespace non_original_idea {
 
 		private const string BasicPronounsChain = "they|I|it|you|they|he|she";
 
-		private const string NegativeContractionLookAhead = "(?:(?!'ve|'nt|n't))";
+		private const string NegativeContractionLookAhead = "(?:(?!'ve|'nt|n't))"; //In case you forget, ?: denotes a non-capturing group
 
 		public static readonly Contraction[] BasicContractions = {
 			//The top down order is the priority
@@ -32,35 +32,12 @@ namespace non_original_idea {
 
 			new Contraction("I'm","I am",isFormatter: false),
 			new Contraction("let's","let us",isFormatter: false),
-		};
 
-		public static readonly Array Subjects = Enum.GetValues(typeof(Subject));
-		public static readonly Array Specificities = Enum.GetValues(typeof(Specificity));
-		public static readonly Array Tenses = Enum.GetValues(typeof(Tense));
+			new Contraction("can't","cannot",isFormatter: false)
+		};
 
 		public static readonly Subject[] ThirdPersonSingulars = {
 			Subject.ThirdFeminine,Subject.ThirdInanimate,Subject.ThirdMasculine
-		};
-
-
-		public static readonly Tense[] ConditionalTenses = {
-			Tense.ConditionalPerfect,
-			Tense.ConditionalPresent,
-			Tense.ContinuousConditionalPerfect,
-			Tense.ContinuousConditionalPresent
-		};
-
-		public static readonly Tense[] NonContinuousTenses = {
-			Tense.ConditionalPerfect,
-			Tense.ConditionalPresent,
-			Tense.Future,
-			Tense.FuturePerfect,
-			Tense.FutureInformal,
-			Tense.Imperfect,
-			Tense.Past,
-			Tense.Perfect,
-			Tense.Plurperfect,
-			Tense.Present,
 		};
 
 		public static char GetPunctuation(Specificity specificity) {
@@ -75,52 +52,6 @@ namespace non_original_idea {
 			}
 		}
 
-		public static Tense GetRandomConditionalTense(Random random) {
-			switch(random.Next(0,4)) {
-				default:
-				case 0:
-					return Tense.ConditionalPresent;
-				case 1:
-					return Tense.ConditionalPerfect;
-				case 2:
-					return Tense.ContinuousConditionalPresent;
-				case 3:
-					return Tense.ContinuousConditionalPerfect;
-			}
-		}
-
-		public static Tense GetRandomNonConditionalTense(Random random) {
-			switch(random.Next(0,32)) {
-				case 0:
-					return Tense.ContinuousFuture;
-				case 1:
-					return Tense.ContinuousFuturePerfect;
-				case 2:
-					return Tense.ContinuousPast;
-				case 3:
-					return Tense.ContinuousPerfect;
-				case 4:
-					return Tense.ContinuousPluperfect;
-				case 5:
-					return Tense.ContinuousPresent;
-				case 6:
-					return Tense.Future;
-				case 7:
-					return Tense.FuturePerfect;
-				case 8:
-					return Tense.Past;
-				case 9:
-					return Tense.Perfect;
-				case 10:
-					return Tense.Plurperfect;
-				default:
-				case 11:
-					return Tense.Present;
-				case 12:
-					return Tense.FutureInformal;
-			}
-		}
-
 		internal static string GetConjugatedHave(Subject subject) {
 			switch(subject) {
 				case Subject.ThirdMasculine:
@@ -132,6 +63,7 @@ namespace non_original_idea {
 			}
 		}
 
+		//Doesn't include the past tense because it's always the same thing: did
 		internal static string GetConjugatedDo(Subject subject) {
 			switch(subject) {
 				case Subject.ThirdMasculine:
@@ -230,7 +162,7 @@ namespace non_original_idea {
 			));
 		}
 
-		internal static string GetTensedVerb(
+		internal static string GetTensedVerb (
 			Tense tense,
 			Specificity specificity,
 
@@ -256,8 +188,8 @@ namespace non_original_idea {
 			string adverb
 
 		) {
-			string sfa = string.Empty;//Space followed adverb
-			string sta = string.Empty;//Space trailed adverb
+			string sfa = string.Empty; //Space followed adverb
+			string sta = string.Empty; //Space trailed adverb
 			if(adverb != null) {
 				sfa = $" {adverb}";
 				sta = $"{adverb} ";
@@ -287,26 +219,76 @@ namespace non_original_idea {
 							return $"{subjectText} will {sta}{flatInfinitive}";
 						case Tense.FutureInformal:
 							return $"{subjectText} {conjugatedVerbToBe}{sfa} going to {flatInfinitive}";
-						case Tense.ContinuousPresent:
+						case Tense.ProgressivePresent:
 							return $"{subjectText} {conjugatedVerbToBe} {sta}{gerund}";
-						case Tense.ContinuousPluperfect:
+						case Tense.ProgressivePluperfect:
 							return $"{subjectText} had been {sta}{gerund}";
-						case Tense.ContinuousPerfect:
+						case Tense.ProgressivePerfect:
 							return $"{subjectText} {conjugatedHave} been {sta}{gerund}";
-						case Tense.ContinuousPast:
+						case Tense.ProgressivePast:
 							return $"{subjectText} {conjugatedVerbToBePast} {sta}{gerund}";
-						case Tense.ContinuousFuturePerfect:
+						case Tense.ProgressiveFuturePerfect:
 							return $"{subjectText} will have been {sta}{gerund}";
-						case Tense.ContinuousFuture:
+						case Tense.ProgressiveFuture:
 							return $"{subjectText} will be {sta}{gerund}";
-						case Tense.ContinuousConditionalPresent:
+						case Tense.ProgressiveConditionalPresent:
 							return $"{subjectText} would be {sta}{gerund}";
-						case Tense.ContinuousConditionalPerfect:
+						case Tense.ProgressiveConditionalPerfect:
 							return $"{subjectText} would have been {sta}{gerund}";
 						case Tense.ConditionalPresent:
 							return $"{subjectText} would {sta}{flatInfinitive}";
 						case Tense.ConditionalPerfect:
 							return $"{subjectText} would have {sta}{participle}";
+						//New tenses
+						case Tense.PossiblePresent:
+							return $"{subjectText} can {sta}{flatInfinitive}";
+						case Tense.PossiblePast:
+							return $"{subjectText} could {sta}{flatInfinitive}";
+						case Tense.PossibleFuture:
+							return $"{subjectText} might {sta}{flatInfinitive}";
+						case Tense.PossiblePerfect:
+							return $"{subjectText} could have {sta}{participle}";
+						case Tense.PossibleImperfect:
+							return $"{subjectText} used to be able to {sta}{flatInfinitive}";
+						case Tense.PossibleFutureImformal:
+							return $"{subjectText} can go {sta}{flatInfinitive}";
+						case Tense.ProgressivePossiblePresent:
+							return $"{subjectText} could be {sta}{gerund}";
+						case Tense.ProgressivePossiblePerfect:
+							return $"{subjectText} could have been {sta}{gerund}";
+						case Tense.AdvisoryPresent:
+							return $"{subjectText} should {sta}{flatInfinitive}";
+						case Tense.AdvisoryPerfect:
+							return $"{subjectText} should have {sta}{participle}";
+						case Tense.ProgressiveAdvisoryPresent:
+							return $"{subjectText} should be {sta}{gerund}";
+						case Tense.ProgressiveAdvisoryPerfect:
+							return $"{subjectText} should have been {sta}{gerund}";
+						case Tense.PermissivePresent:
+							return $"{subjectText} may {sta}{flatInfinitive}";
+						case Tense.PermissivePerfect:
+							return $"{subjectText} may have {sta}{participle}";
+						case Tense.ProgressivePermissivePresent:
+							return $"{subjectText} may be {sta}{gerund}";
+						case Tense.ProgressivePermissivePerfect:
+							return $"{subjectText} may have been {sta}{gerund}";
+						case Tense.ObligatePresent:
+							return $"{subjectText} must {sta}{flatInfinitive}";
+						case Tense.ObligatePast:
+							return $"{subjectText} had to {sta}{flatInfinitive}";
+						case Tense.ObligatePerfect:
+							return $"{subjectText} must have {sta}{participle}";
+						case Tense.ProgressiveObligatePresent:
+							return $"{subjectText} must be {sta}{gerund}";
+						case Tense.ProgressiveObligatePerfect:
+							return $"{subjectText} must have been {sta}{gerund}";
+						case Tense.ObligateImperfect:
+							return $"{subjectText} used to have to {sta}{flatInfinitive}";
+						case Tense.ObligatePresentInformal:
+							return $"{subjectText} {conjugatedHave} to {sta}{flatInfinitive}";
+						case Tense.ObligateFuture:
+							return $"{subjectText} {conjugatedVerbToBe} going to have to {sta}{flatInfinitive}";
+;
 					}
 				case Specificity.PositiveQuestion:
 					switch(tense) {
@@ -335,26 +317,75 @@ namespace non_original_idea {
 							return $"will {subjectText} {sta}{flatInfinitive}";
 						case Tense.FutureInformal:
 							return $"{conjugatedVerbToBe} {subjectText}{sfa} going to {flatInfinitive}";
-						case Tense.ContinuousPresent:
+						case Tense.ProgressivePresent:
 							return $"{conjugatedVerbToBe} {subjectText} {sta}{gerund}";
-						case Tense.ContinuousPluperfect:
+						case Tense.ProgressivePluperfect:
 							return $"had {subjectText} been {sta}{gerund}";
-						case Tense.ContinuousPerfect:
+						case Tense.ProgressivePerfect:
 							return $"{conjugatedHave} {subjectText} been {sta}{gerund}";
-						case Tense.ContinuousPast:
+						case Tense.ProgressivePast:
 							return $"{conjugatedVerbToBePast} {subjectText} {sta}{gerund}";
-						case Tense.ContinuousFuturePerfect:
+						case Tense.ProgressiveFuturePerfect:
 							return $"will {subjectText} have been {sta}{gerund}";
-						case Tense.ContinuousFuture:
+						case Tense.ProgressiveFuture:
 							return $"will {subjectText} be {sta}{gerund}";
-						case Tense.ContinuousConditionalPresent:
+						case Tense.ProgressiveConditionalPresent:
 							return $"would {subjectText} be {sta}{gerund}";
-						case Tense.ContinuousConditionalPerfect:
+						case Tense.ProgressiveConditionalPerfect:
 							return $"would {subjectText} have been {sta}{gerund}";
 						case Tense.ConditionalPresent:
 							return $"would {subjectText} {sta}{flatInfinitive}";
 						case Tense.ConditionalPerfect:
 							return $"would {subjectText} have {sta}{participle}";
+						//New tenses
+						case Tense.PossiblePresent:
+							return $"can {subjectText} {sta}{flatInfinitive}";
+						case Tense.PossiblePast:
+							return $"could {subjectText} {sta}{flatInfinitive}";
+						case Tense.PossibleFuture:
+							return $"might {subjectText} {sta}{flatInfinitive}";
+						case Tense.PossiblePerfect:
+							return $"could {subjectText} have {sta}{participle}";
+						case Tense.PossibleImperfect:
+							return $"did {subjectText} used to be able to {sta}{flatInfinitive}";
+						case Tense.PossibleFutureImformal:
+							return $"can {subjectText} go {sta}{flatInfinitive}";
+						case Tense.ProgressivePossiblePresent:
+							return $"can {subjectText} be {sta}{gerund}";
+						case Tense.ProgressivePossiblePerfect:
+							return $"could {subjectText} have been {sta}{gerund}";
+						case Tense.AdvisoryPresent:
+							return $"should {subjectText} {sta}{flatInfinitive}";
+						case Tense.AdvisoryPerfect:
+							return $"should {subjectText} have {sta}{participle}";
+						case Tense.ProgressiveAdvisoryPresent:
+							return $"should {subjectText} be {sta}{gerund}";
+						case Tense.ProgressiveAdvisoryPerfect:
+							return $"should {subjectText} have been {sta}{gerund}";
+						case Tense.PermissivePresent:
+							return $"may {subjectText} {sta}{flatInfinitive}";
+						case Tense.PermissivePerfect:
+							return $"may {subjectText} have {sta}{participle}";
+						case Tense.ProgressivePermissivePresent:
+							return $"may {subjectText} be {sta}{gerund}";
+						case Tense.ProgressivePermissivePerfect:
+							return $"may {subjectText} have been {sta}{gerund}";
+						case Tense.ObligatePresent:
+							return $"must {subjectText} have to {sta}{flatInfinitive}";
+						case Tense.ObligatePast:
+							return $"must {subjectText} have had to {sta}{flatInfinitive}";
+						case Tense.ObligatePerfect:
+							return $"must {subjectText} have to have {sta}{participle}";
+						case Tense.ProgressiveObligatePresent:
+							return $"must {subjectText} be {sta}{gerund}";
+						case Tense.ProgressiveObligatePerfect:
+							return $"must {subjectText} have been {sta}{gerund}";
+						case Tense.ObligateImperfect:
+							return $"did {subjectText} used to have to {sta}{flatInfinitive}";
+						case Tense.ObligatePresentInformal:
+							return $"{conjugatedDo} {subjectText} have to {sta}{flatInfinitive}";
+						case Tense.ObligateFuture:
+							return $"{conjugatedVerbToBe} {subjectText} going to have to {sta}{flatInfinitive}";
 					}
 				case Specificity.NegativeStatement:
 					switch(tense) {
@@ -383,26 +414,75 @@ namespace non_original_idea {
 							return $"{subjectText} will not {sta}{flatInfinitive}";
 						case Tense.FutureInformal:
 							return $"{subjectText} will not be{sfa} going to {flatInfinitive}";
-						case Tense.ContinuousPresent:
+						case Tense.ProgressivePresent:
 							return $"{subjectText} {conjugatedVerbToBe} not {sta}{gerund}";
-						case Tense.ContinuousPluperfect:
+						case Tense.ProgressivePluperfect:
 							return $"{subjectText} had not been {sta}{gerund}";
-						case Tense.ContinuousPerfect:
+						case Tense.ProgressivePerfect:
 							return $"{subjectText} {conjugatedHave} not been {sta}{gerund}";
-						case Tense.ContinuousPast:
+						case Tense.ProgressivePast:
 							return $"{subjectText} {conjugatedVerbToBePast} not {sta}{gerund}";
-						case Tense.ContinuousFuturePerfect:
+						case Tense.ProgressiveFuturePerfect:
 							return $"{subjectText} will not have been {sta}{gerund}";
-						case Tense.ContinuousFuture:
+						case Tense.ProgressiveFuture:
 							return $"{subjectText} will not be {sta}{gerund}";
-						case Tense.ContinuousConditionalPresent:
+						case Tense.ProgressiveConditionalPresent:
 							return $"{subjectText} would not be {sta}{gerund}";
-						case Tense.ContinuousConditionalPerfect:
+						case Tense.ProgressiveConditionalPerfect:
 							return $"{subjectText} would not have been {sta}{gerund}";
 						case Tense.ConditionalPresent:
 							return $"{subjectText} would not {sta}{flatInfinitive}";
 						case Tense.ConditionalPerfect:
 							return $"{subjectText} would not have {sta}{participle}";
+						//New tenses
+						case Tense.PossiblePresent:
+							return $"{subjectText} cannot {sta}{flatInfinitive}";
+						case Tense.PossiblePast:
+							return $"{subjectText} could not {sta}{flatInfinitive}";
+						case Tense.PossibleFuture:
+							return $"{subjectText} might not {sta}{flatInfinitive}";
+						case Tense.PossiblePerfect:
+							return $"{subjectText} could not have {sta}{participle}";
+						case Tense.PossibleImperfect:
+							return $"{subjectText} used to not be able to {sta}{flatInfinitive}";
+						case Tense.PossibleFutureImformal:
+							return $"{subjectText} cannot go {sta}{flatInfinitive}";
+						case Tense.ProgressivePossiblePresent:
+							return $"{subjectText} could not be {sta}{gerund}";
+						case Tense.ProgressivePossiblePerfect:
+							return $"{subjectText} could not have been {sta}{gerund}";
+						case Tense.AdvisoryPresent:
+							return $"{subjectText} should not {sta}{flatInfinitive}";
+						case Tense.AdvisoryPerfect:
+							return $"{subjectText} should not have {sta}{participle}";
+						case Tense.ProgressiveAdvisoryPresent:
+							return $"{subjectText} should not be {sta}{gerund}";
+						case Tense.ProgressiveAdvisoryPerfect:
+							return $"{subjectText} should not have been {sta}{gerund}";
+						case Tense.PermissivePresent:
+							return $"{subjectText} may not {sta}{flatInfinitive}";
+						case Tense.PermissivePerfect:
+							return $"{subjectText} may not have {sta}{participle}";
+						case Tense.ProgressivePermissivePresent:
+							return $"{subjectText} may not be {sta}{gerund}";
+						case Tense.ProgressivePermissivePerfect:
+							return $"{subjectText} may not have been {sta}{gerund}";
+						case Tense.ObligatePresent:
+							return $"{subjectText} must not {sta}{flatInfinitive}";
+						case Tense.ObligatePast:
+							return $"{subjectText} had to not {sta}{flatInfinitive}";
+						case Tense.ObligatePerfect:
+							return $"{subjectText} must not have {sta}{participle}";
+						case Tense.ProgressiveObligatePresent:
+							return $"{subjectText} must not be {sta}{gerund}";
+						case Tense.ProgressiveObligatePerfect:
+							return $"{subjectText} must not have been {sta}{gerund}";
+						case Tense.ObligateImperfect:
+							return $"{subjectText} used to not have to {sta}{flatInfinitive}";
+						case Tense.ObligatePresentInformal:
+							return $"{subjectText} {conjugatedHave} to not {sta}{flatInfinitive}";
+						case Tense.ObligateFuture:
+							return $"{subjectText} {conjugatedVerbToBe} going to have to not {sta}{flatInfinitive}";
 					}
 				case Specificity.NegativeQuestion:
 					switch(tense) {
@@ -431,26 +511,75 @@ namespace non_original_idea {
 							return $"will {subjectText} not {sta}{flatInfinitive}";
 						case Tense.FutureInformal:
 							return $"will {subjectText} not be{sfa} going to {flatInfinitive}";
-						case Tense.ContinuousPresent:
+						case Tense.ProgressivePresent:
 							return $"{conjugatedVerbToBe} {subjectText} not {sta}{gerund}";
-						case Tense.ContinuousPluperfect:
+						case Tense.ProgressivePluperfect:
 							return $"had {subjectText} not been {sta}{gerund}";
-						case Tense.ContinuousPerfect:
+						case Tense.ProgressivePerfect:
 							return $"{conjugatedHave} {subjectText} not been {sta}{gerund}";
-						case Tense.ContinuousPast:
+						case Tense.ProgressivePast:
 							return $"{conjugatedVerbToBePast} {subjectText} not {sta}{gerund}";
-						case Tense.ContinuousFuturePerfect:
+						case Tense.ProgressiveFuturePerfect:
 							return $"will {subjectText} not have been {sta}{gerund}";
-						case Tense.ContinuousFuture:
+						case Tense.ProgressiveFuture:
 							return $"will {subjectText} not be {sta}{gerund}";
-						case Tense.ContinuousConditionalPresent:
+						case Tense.ProgressiveConditionalPresent:
 							return $"would {subjectText} not be {sta}{gerund}";
-						case Tense.ContinuousConditionalPerfect:
+						case Tense.ProgressiveConditionalPerfect:
 							return $"would {subjectText} not have been {sta}{gerund}";
 						case Tense.ConditionalPresent:
 							return $"would {subjectText} {sta}{flatInfinitive}";
 						case Tense.ConditionalPerfect:
 							return $"would {subjectText} have {sta}{participle}";
+						//New tenses
+						case Tense.PossiblePresent:
+							return $"can {subjectText} not {sta}{flatInfinitive}";
+						case Tense.PossiblePast:
+							return $"could {subjectText} not {sta}{flatInfinitive}";
+						case Tense.PossibleFuture:
+							return $"might {subjectText} not {sta}{flatInfinitive}";
+						case Tense.PossiblePerfect:
+							return $"could {subjectText} not have {sta}{participle}";
+						case Tense.PossibleImperfect:
+							return $"did {subjectText} not used to be able to {sta}{flatInfinitive}";
+						case Tense.PossibleFutureImformal:
+							return $"can {subjectText} not go {sta}{flatInfinitive}";
+						case Tense.ProgressivePossiblePresent:
+							return $"can {subjectText} not be {sta}{gerund}";
+						case Tense.ProgressivePossiblePerfect:
+							return $"could {subjectText} not have been {sta}{gerund}";
+						case Tense.AdvisoryPresent:
+							return $"should {subjectText} not {sta}{flatInfinitive}";
+						case Tense.AdvisoryPerfect:
+							return $"should {subjectText} not have {sta}{participle}";
+						case Tense.ProgressiveAdvisoryPresent:
+							return $"should {subjectText} not be {sta}{gerund}";
+						case Tense.ProgressiveAdvisoryPerfect:
+							return $"should {subjectText} not have been {sta}{gerund}";
+						case Tense.PermissivePresent:
+							return $"may {subjectText} not {sta}{flatInfinitive}";
+						case Tense.PermissivePerfect:
+							return $"may {subjectText} not have {sta}{participle}";
+						case Tense.ProgressivePermissivePresent:
+							return $"may {subjectText} not be {sta}{gerund}";
+						case Tense.ProgressivePermissivePerfect:
+							return $"may {subjectText} not have been {sta}{gerund}";
+						case Tense.ObligatePresent:
+							return $"must {subjectText} not have to {sta}{flatInfinitive}";
+						case Tense.ObligatePast:
+							return $"must {subjectText} not have had to {sta}{flatInfinitive}";
+						case Tense.ObligatePerfect:
+							return $"must {subjectText} not have to have {sta}{participle}";
+						case Tense.ProgressiveObligatePresent:
+							return $"must {subjectText} not be {sta}{gerund}";
+						case Tense.ProgressiveObligatePerfect:
+							return $"must {subjectText} not have been {sta}{gerund}";
+						case Tense.ObligateImperfect:
+							return $"did {subjectText} not used to have to {sta}{flatInfinitive}";
+						case Tense.ObligatePresentInformal:
+							return $"{conjugatedDo} {subjectText} not have to {sta}{flatInfinitive}";
+						case Tense.ObligateFuture:
+							return $"{conjugatedVerbToBe} {subjectText} not going to have to {sta}{flatInfinitive}";
 					}
 			}
 		}
@@ -511,8 +640,8 @@ namespace non_original_idea {
 			if(tense.IsConditionalTense()) {
 				flags = flags | FragmentFlags.Conditional;
 			}
-			if(tense.IsContinuousTense()) {
-				flags = flags | FragmentFlags.Continuous;
+			if(tense.IsProgressiveTense()) {
+				flags = flags | FragmentFlags.Progressive;
 			}
 			return new SentenceFragment(result,flags);
 		}
@@ -520,27 +649,15 @@ namespace non_original_idea {
 			switch(tense) {
 				case Tense.ConditionalPresent:
 				case Tense.ConditionalPerfect:
-				case Tense.ContinuousConditionalPresent:
-				case Tense.ContinuousConditionalPerfect:
+				case Tense.ProgressiveConditionalPresent:
+				case Tense.ProgressiveConditionalPerfect:
 					return true;
 				default:
 					return false;
 			}
 		}
-		internal static bool IsContinuousTense(this Tense tense) {
-			switch(tense) {
-				case Tense.ContinuousConditionalPresent:
-				case Tense.ContinuousConditionalPerfect:
-				case Tense.ContinuousPresent:
-				case Tense.ContinuousPast:
-				case Tense.ContinuousFuture:
-				case Tense.ContinuousFuturePerfect:
-				case Tense.ContinuousPluperfect:
-				case Tense.ContinuousPerfect:
-					return true;
-				default:
-					return false;
-			}
+		internal static bool IsProgressiveTense(this Tense tense) {
+			return tense.ToString().StartsWith("Progressive");
 		}
 	}
 }
